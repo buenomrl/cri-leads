@@ -91,10 +91,30 @@ export function descreverInteresse(e: Extracao): string {
   }
 
   let texto = partes.join(' ');
-  if (e.sinal_orcamento?.trim()) {
-    texto += `, na faixa de ${e.sinal_orcamento.trim()}`;
-  }
+  const orcamento = e.sinal_orcamento?.trim();
+  if (orcamento) texto += `, ${fraseDeOrcamento(orcamento)}`;
   return texto;
+}
+
+/**
+ * O sinal de orcamento chega como o lead escreveu ("até R$ 4,5 milhões",
+ * "orçamento aberto", "R$ 8 milhões"). Colar tudo atras de "na faixa de"
+ * produzia "na faixa de até R$ 4,5 milhões". A frase se adapta ao que ja' vem
+ * no texto — sem reescrever o valor, que e' dado do lead e nao se altera.
+ */
+function fraseDeOrcamento(sinal: string): string {
+  // Ja' e' uma frase completa ("orçamento aberto", "faixa de R$ 8 milhões").
+  if (/orçamento|orcamento/i.test(sinal) || /^faixa(?=\s|$)/i.test(sinal)) return sinal;
+  // Lookahead de espaco, e nao `\b`: sem a flag `u`, `é` nao conta como letra
+  // e `/^até\b/` nunca casaria com "até R$".
+  if (
+    /^(até|ate|entre|acima|a partir|cerca|por volta|mais de|menos de|no máximo|no maximo|máximo|maximo|no mínimo|no minimo|mínimo|minimo|aprox\w*)(?=\s|$)/i.test(
+      sinal,
+    )
+  ) {
+    return `com orçamento ${sinal}`;
+  }
+  return `na faixa de ${sinal}`;
 }
 
 export interface MensagemComposta {

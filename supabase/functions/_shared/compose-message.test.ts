@@ -48,8 +48,25 @@ describe('primeiroNome', () => {
 describe('descreverInteresse', () => {
   it('monta a descricao a partir do que foi extraido', () => {
     expect(descreverInteresse(completa)).toBe(
-      'apartamento de 3 dormitórios na região de Itaim Bibi, na faixa de até R$ 4,5 milhões',
+      'apartamento de 3 dormitórios na região de Itaim Bibi, com orçamento até R$ 4,5 milhões',
     );
+  });
+
+  it('adapta a frase do orcamento ao que o lead escreveu', () => {
+    const so = (sinal: string) =>
+      descreverInteresse({ ...completa, dormitorios: null, bairro: null, sinal_orcamento: sinal });
+    expect(so('R$ 8 milhões')).toBe('apartamento, na faixa de R$ 8 milhões');
+    expect(so('orçamento aberto')).toBe('apartamento, orçamento aberto');
+    expect(so('entre R$ 2 e 3 milhões')).toBe('apartamento, com orçamento entre R$ 2 e 3 milhões');
+    expect(so('Até R$ 5 mi')).toBe('apartamento, com orçamento Até R$ 5 mi');
+    expect(so('a partir de R$ 3 milhões')).toBe('apartamento, com orçamento a partir de R$ 3 milhões');
+    expect(so('no máximo R$ 2 mi')).toBe('apartamento, com orçamento no máximo R$ 2 mi');
+  });
+
+  it('nao dobra a preposicao quando o sinal ja traz "faixa de"', () => {
+    expect(
+      descreverInteresse({ ...completa, dormitorios: null, bairro: null, sinal_orcamento: 'faixa de R$ 8 milhões' }),
+    ).toBe('apartamento, faixa de R$ 8 milhões');
   });
 
   it('nao inventa nada quando a extracao esta vazia', () => {
