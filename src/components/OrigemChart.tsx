@@ -23,7 +23,7 @@ export function OrigemChart({ resumo }: { resumo: Resumo }) {
         <h2 id="titulo-grafico">Origem × qualificação</h2>
         <div className="legenda" aria-hidden="true">
           <span><i style={{ background: 'var(--volume)' }} />volume</span>
-          <span><i style={{ background: 'var(--acento)' }} />taxa de qualificação</span>
+          <span><i style={{ background: 'linear-gradient(90deg, var(--marca), var(--marca-2))' }} />taxa de qualificação</span>
         </div>
       </div>
 
@@ -40,7 +40,7 @@ export function OrigemChart({ resumo }: { resumo: Resumo }) {
                 <div style={{ width: `${(o.total / maiorVolume) * 100}%`, background: 'var(--volume)' }} />
               </div>
               <div className="trilho">
-                <div style={{ width: `${o.taxaQualificacao}%`, background: 'var(--acento)' }} />
+                <div style={{ width: `${o.taxaQualificacao}%`, background: 'linear-gradient(90deg, var(--marca), var(--marca-2))' }} />
               </div>
             </div>
             <span className="suave num" style={{ textAlign: 'right' }}>

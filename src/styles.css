@@ -7,8 +7,15 @@
   --tinta-3: #8a8377;
   --linha: rgba(22, 20, 15, 0.08);
   --linha-forte: rgba(22, 20, 15, 0.16);
-  --acento: #8a5a2b;
-  --acento-escuro: #6b441f;
+  /* Laranja da marca CRI (do logo). `--acento` e' a versao escurecida para
+     TEXTO e contorno (contraste ~5:1 no marfim); `--marca`/`--marca-2` sao o
+     laranja puro do logo, so' para area cheia sem texto (barras do grafico). */
+  --acento: #c2410c;
+  --acento-escuro: #9a3412;
+  --acento-suave: rgba(194, 65, 12, 0.08);
+  --acento-borda: rgba(194, 65, 12, 0.3);
+  --marca: #ff6a00;
+  --marca-2: #ff3d00;
   --volume: #d8d2c6;
 
   --st-novo: #3f5163;
@@ -72,8 +79,8 @@ h1, h2, p { margin: 0; }
 }
 .btn-primario { background: var(--tinta); border-color: var(--tinta); color: var(--fundo); font-size: 14px; padding: 12px 24px; }
 .btn-primario:hover:not(:disabled) { background: #2c2920; border-color: #2c2920; }
-.btn-acento { color: var(--acento); border-color: rgba(138, 90, 43, 0.32); font-size: 12.5px; padding: 8px 14px; }
-.btn-acento:hover:not(:disabled) { border-color: var(--acento); background: rgba(138, 90, 43, 0.05); }
+.btn-acento { color: var(--acento); border-color: var(--acento-borda); font-size: 12.5px; padding: 8px 14px; }
+.btn-acento:hover:not(:disabled) { border-color: var(--acento); background: var(--acento-suave); }
 .btn-link { border: none; padding: 0; min-height: 0; color: var(--acento); }
 .btn-link:hover:not(:disabled) { color: var(--acento-escuro); }
 
@@ -87,16 +94,31 @@ h1, h2, p { margin: 0; }
 }
 
 .topo {
+  border-bottom: 1px solid var(--linha);
+  background: color-mix(in srgb, var(--superficie) 55%, var(--fundo));
+}
+/* Mesma largura e mesmo gutter da .pagina: logo e titulo alinham na mesma coluna. */
+.topo-dentro {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px var(--gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 22px var(--gutter);
-  border-bottom: 1px solid var(--linha);
 }
-.marca { display: flex; align-items: baseline; gap: 12px; background: none; border: none; padding: 0; cursor: pointer; }
-.marca-cri { font-family: var(--serif); font-size: 28px; letter-spacing: 0.01em; }
-.marca-sub { font-size: 10px; font-weight: 500; letter-spacing: 0.18em; color: var(--tinta-3); text-transform: uppercase; }
+.marca { display: flex; align-items: center; gap: 14px; background: none; border: none; padding: 0; cursor: pointer; }
+.marca-logo { display: block; height: 29px; width: auto; }
+.marca-sub {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--tinta-3);
+  text-transform: uppercase;
+  padding-left: 14px;
+  border-left: 1px solid var(--linha-forte);
+  line-height: 1.6;
+}
 .topo-acoes { display: flex; align-items: center; gap: 14px; }
 .modo { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--tinta-2); }
 .modo::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--tinta-3); }
@@ -315,7 +337,7 @@ dialog::backdrop { background: rgba(22, 20, 15, 0.32); }
 .chave code { font-size: 12.5px; color: var(--tinta-3); }
 .etiquetas { display: flex; gap: 6px; flex-wrap: wrap; }
 .etiqueta { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: rgba(22, 20, 15, 0.05); color: var(--tinta-2); }
-.etiqueta.escolhida { background: rgba(138, 90, 43, 0.12); color: var(--acento); font-weight: 600; }
+.etiqueta.escolhida { background: rgba(194, 65, 12, 0.1); color: var(--acento); font-weight: 600; }
 .nota { font-size: 12.5px; line-height: 1.55; color: var(--tinta-3); }
 .mensagem { padding: 20px 22px; border-radius: 12px; background: var(--fundo); border: 1px solid var(--linha); font-size: 15px; line-height: 1.65; display: flex; flex-direction: column; gap: 12px; white-space: pre-wrap; }
 .acoes { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -324,6 +346,21 @@ dialog::backdrop { background: rgba(22, 20, 15, 0.32); }
 .divisor { border-top: 1px solid var(--linha); }
 
 .carregando { color: var(--tinta-3); font-size: 14px; }
+
+.rodape { border-top: 1px solid var(--linha); }
+.rodape-dentro {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px var(--gutter) 28px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px 24px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--tinta-3);
+}
+.rodape a { color: var(--acento); text-decoration: none; }
+.rodape a:hover { text-decoration: underline; }
 
 /* ---------- responsivo ---------- */
 @media (max-width: 960px) {

@@ -214,6 +214,20 @@ export function App() {
         </main>
       )}
 
+      {/* O site e' publico e usa o logo da CRI: o aviso evita que alguem o
+          confunda com um sistema oficial deles. */}
+      <footer className="rodape">
+        <div className="rodape-dentro">
+          <span>
+            Projeto de avaliação técnica para a CRI Soluções Imobiliárias · não é um sistema oficial ·
+            dados fictícios
+          </span>
+          <a href="https://github.com/buenomrl/cri-leads" target="_blank" rel="noreferrer">
+            Código no GitHub
+          </a>
+        </div>
+      </footer>
+
       <DemoKeyDialog
         aberto={pedindoChave}
         modoLocal={MODO_LOCAL}

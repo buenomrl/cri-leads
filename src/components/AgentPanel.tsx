@@ -193,7 +193,7 @@ export function AgentPanel({ lead, chave, onPedirChave, onChaveRecusada, onVolta
         <div className="entrada-topo">
           <span className="rotulo">Texto do lead</span>
           <span className="rotulo" style={{ color: hostil ? 'var(--st-perdido)' : undefined }}>
-            {hostil ? 'payload de teste' : 'entrada não confiável'}
+            {hostil ? 'payload de teste' : 'escrito pelo cliente · tratado como dado'}
           </span>
         </div>
         <p className="entrada-texto">{hostil ? ENTRADA_HOSTIL : lead.imovel_interesse}</p>
