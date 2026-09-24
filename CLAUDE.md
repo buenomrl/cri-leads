@@ -30,8 +30,20 @@ Prioridade declarada pelo dono do projeto: **1) segurança**, **2) design clean*
 ## Testes
 
 Vitest, `npm test`. **Só a camada de REGRA** (funções puras): validação de entrada, agregação da
-analytics, máscara de telefone, guard de saída do agente, compositor da mensagem. Testes ao lado do
-fonte (`arquivo.test.ts`).
+analytics, máscara de telefone, guard de saída do agente, compositor da mensagem, preparo do texto
+do lead para o prompt (tag não forjável), comparação da chave de demo (`secure-compare.ts`),
+leitura da resposta do modelo (`model-response.ts`: só `end_turn` é válido), regra do CORS
+(`cors.ts`) e busca/ordenação da tabela (`src/lead-list.ts`). Testes ao lado do fonte
+(`arquivo.test.ts`).
+
+Quando uma regra nasce em `_server/` (que depende do Deno e o Vitest não alcança), a **decisão**
+sai para uma função pura em `_shared/` e `_server/` só chama. Foi assim com a chave de demo, a
+resposta do modelo e o CORS.
+
+`npm run smoke` verifica a **API publicada** (401/400/405, telefone mascarado, CORS, escrita sem
+efeito). `npm run smoke -- --agente` também manda a entrada hostil ao agente (gasta ~1 centavo).
+Fica fora do `npm test` porque precisa de rede e da chave (lida de `supabase/functions/.env`, nunca
+impressa). Rodar depois de todo deploy das functions.
 
 Componente React está fora de escopo de propósito. A convenção que importa: **regra que importa vira
 função pura, com teste ao lado** — enquanto a regra vive dentro de um handler de clique, não há onde
