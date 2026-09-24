@@ -9,6 +9,7 @@ import {
 import type { CSSProperties } from 'react';
 
 import type { ColunaOrdenavel, Ordem } from '../lead-list.ts';
+import { SUPORTA_TRANSICAO } from '../transicao.ts';
 
 interface Props {
   leads: Lead[];
@@ -47,7 +48,7 @@ export function LeadsTable({
   onAbrirAgente,
 }: Props) {
   return (
-    <div className="cartao tabela-caixa">
+    <div className={`cartao tabela-caixa${SUPORTA_TRANSICAO ? ' com-transicao' : ''}`}>
       <table>
         <thead>
           <tr>
@@ -73,10 +74,10 @@ export function LeadsTable({
             <th scope="col">Agente</th>
           </tr>
         </thead>
-        {/* `key` troca com filtro e ordem: a lista inteira reanima ("virada de
-            pagina"). A busca NAO entra na key — reanimar a cada letra tremeria;
-            ali so' as linhas que aparecem montam e animam (key={lead.id}). */}
-        <tbody key={chaveLista}>
+        {/* Com View Transitions (transicao.ts), cada linha tem nome proprio e o
+            navegador anima entrada, saida e reposicionamento. Sem suporte, fica o
+            plano B: `key` troca com filtro e ordem e a lista reanima em cascata. */}
+        <tbody key={SUPORTA_TRANSICAO ? undefined : chaveLista}>
           {leads.length === 0 && (
             <tr>
               <td colSpan={6} className="vazio">
@@ -88,7 +89,9 @@ export function LeadsTable({
             <tr
               key={lead.id}
               className={recemSalvo === lead.id ? 'salvo' : undefined}
-              style={{ '--i': i } as CSSProperties}
+              style={
+                { '--i': i, viewTransitionName: SUPORTA_TRANSICAO ? `lead-${lead.id}` : undefined } as CSSProperties
+              }
             >
               <td className="col-nome">{lead.nome}</td>
               <td className="col-tel num" title="Mascarado na listagem pública">{lead.telefone}</td>

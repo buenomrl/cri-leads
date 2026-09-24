@@ -19,6 +19,7 @@ import { SummaryTiles } from './components/SummaryTiles.tsx';
 import { TopBar } from './components/TopBar.tsx';
 import { apagarChaveDemo, lerChaveDemo, salvarChaveDemo } from './demo-key.ts';
 import { buscarLeads, ordenarLeads, proximaOrdem, type Ordem } from './lead-list.ts';
+import { comTransicao } from './transicao.ts';
 
 const DIA_MS = 24 * 60 * 60 * 1000;
 
@@ -26,7 +27,11 @@ export function App() {
   const [dados, setDados] = useState<ListaResposta | null>(null);
   const [erro, setErro] = useState<string | null>(null);
   const [filtro, setFiltro] = useState<Filtro>('todos');
+  // Dois estados de busca: `busca` e' o texto do campo (atualiza na hora, senao o
+  // cursor pula); `buscaAplicada` e' o que filtra a lista, e muda DENTRO da
+  // transicao — ver transicao.ts.
   const [busca, setBusca] = useState('');
+  const [buscaAplicada, setBuscaAplicada] = useState('');
   const [ordem, setOrdem] = useState<Ordem>(null);
   const [chave, setChave] = useState<string | null>(lerChaveDemo);
   const [pedindoChave, setPedindoChave] = useState(false);
@@ -128,8 +133,8 @@ export function App() {
     [dados, filtro],
   );
   const visiveis = useMemo(
-    () => ordenarLeads(buscarLeads(doStatus, busca), ordem),
-    [doStatus, busca, ordem],
+    () => ordenarLeads(buscarLeads(doStatus, buscaAplicada), ordem),
+    [doStatus, buscaAplicada, ordem],
   );
 
   const periodoDias = useMemo(() => {
@@ -194,23 +199,26 @@ export function App() {
                   filtro={filtro}
                   total={dados.resumo.total}
                   porStatus={dados.resumo.porStatus}
-                  onMudar={setFiltro}
+                  onMudar={(f) => comTransicao(() => setFiltro(f))}
                 />
                 <LeadSearch
                   termo={busca}
                   mostrando={visiveis.length}
                   total={doStatus.length}
-                  onMudar={setBusca}
+                  onMudar={(termo) => {
+                    setBusca(termo);
+                    comTransicao(() => setBuscaAplicada(termo), 'busca');
+                  }}
                 />
                 <LeadsTable
                   leads={visiveis}
                   escritaLiberada={chave !== null}
                   salvando={salvando}
                   ordem={ordem}
-                  busca={busca}
+                  busca={buscaAplicada}
                   chaveLista={`${filtro}|${ordem?.coluna ?? ''}|${ordem?.direcao ?? ''}`}
                   recemSalvo={recemSalvo}
-                  onOrdenar={(coluna) => setOrdem((atual) => proximaOrdem(atual, coluna))}
+                  onOrdenar={(coluna) => comTransicao(() => setOrdem((atual) => proximaOrdem(atual, coluna)))}
                   onMudarStatus={mudarStatus}
                   onAbrirAgente={abrirAgente}
                 />
