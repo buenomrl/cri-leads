@@ -1,0 +1,25 @@
+node_modules/
+dist/
+.vite/
+
+# Segredos. NADA de credencial versionada — veja .env.example para a forma.
+.env
+.env.*
+!.env.example
+*.local.txt
+.supabase-db-password.local.txt
+
+# Estado local do CLI do Supabase
+supabase/.temp/
+supabase/.branches/
+
+# Vercel
+.vercel
+
+# Skill volumosa do Claude, util localmente mas fora do repo publico (1,9 MB)
+.claude/skills/ui-ux-pro-max/
+
+# Sistema operacional
+Thumbs.db
+desktop.ini
+.DS_Store

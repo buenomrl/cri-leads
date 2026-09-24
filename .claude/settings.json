@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm test *)",
+      "Bash(npm install)",
+      "Bash(npx vitest *)",
+      "Bash(npx tsc *)",
+      "Bash(git -C \"C:/Users/muril/Desktop/Bueno/Claude/CRI-Leads\" status --short)",
+      "Bash(git -C \"C:/Users/muril/Desktop/Bueno/Claude/CRI-Leads\" log --oneline *)",
+      "Bash(git -C \"C:/Users/muril/Desktop/Bueno/Claude/CRI-Leads\" diff *)",
+      "Bash(node -e *)"
+    ]
+  }
+}

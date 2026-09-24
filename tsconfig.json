@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "types": ["node", "vite/client"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "erasableSyntaxOnly": true,
+    "noEmit": true,
+
+    // A camada de regra pura vive em supabase/functions/_shared para o Deno das
+    // Edge Functions poder importa-la por caminho relativo. O front e o Vitest
+    // chegam nela por este alias, entao existe UMA implementacao de cada regra
+    // — o mesmo validador e a mesma agregacao rodam no servidor, na tela e no
+    // teste. Deno exige a extensao .ts explicita nos imports; por isso o
+    // allowImportingTsExtensions.
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@shared/*": ["./supabase/functions/_shared/*"]
+    }
+  },
+  // De proposito NAO inclui supabase/functions/_server nem os index.ts das
+  // functions: aqueles usam globais do Deno e imports por URL, que este
+  // tsconfig (do bundler do front) nao sabe resolver. Sao checados com
+  // `deno check`, nao com `tsc`.
+  "include": [
+    "src",
+    "supabase/functions/_shared",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
+}
