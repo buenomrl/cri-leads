@@ -37,6 +37,10 @@ export function comTransicao(fn: () => void, tipo: 'lista' | 'busca' = 'lista'):
   const raiz = document.documentElement;
   raiz.dataset.transicao = tipo;
   const t = document.startViewTransition(() => flushSync(fn));
+  // O navegador pode abortar a ANIMACAO (aba em segundo plano, outra transicao
+  // comecando). A mudanca da lista ja' foi aplicada mesmo assim; o aborto so'
+  // nao pode virar erro solto no console.
+  t.ready.catch(() => {});
   t.finished.finally(() => {
     emAndamento = false;
     delete raiz.dataset.transicao;
