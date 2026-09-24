@@ -1,5 +1,7 @@
 // Resposta HTTP, CORS e tratamento de erro — o invólucro comum das 2 rotas.
 
+import { lerOrigensPermitidas, origemLiberada } from '../_shared/cors.ts';
+
 import { envOpcional } from './env.ts';
 
 export class HttpError extends Error {
@@ -23,19 +25,13 @@ export class HttpError extends Error {
 // script — esses ignoram CORS porque CORS e' regra que o navegador aplica em
 // si mesmo. Quem controla escrita aqui e' a chave de demo. Ver SECURITY.md.
 
-function origensPermitidas(): string[] {
-  return envOpcional('ALLOWED_ORIGINS', 'http://localhost:5173')
-    .split(',')
-    .map((o) => o.trim())
-    .filter(Boolean);
-}
-
 export function corsHeaders(origem: string | null): Record<string, string> {
-  const permitidas = origensPermitidas();
-  const liberada = origem && permitidas.includes(origem) ? origem : permitidas[0] ?? '';
+  // A regra (quem e' liberado) e' pura e testada em _shared/cors.ts; aqui so'
+  // se le a env.
+  const permitidas = lerOrigensPermitidas(envOpcional('ALLOWED_ORIGINS', 'http://localhost:5173'));
 
   return {
-    'Access-Control-Allow-Origin': liberada,
+    'Access-Control-Allow-Origin': origemLiberada(origem, permitidas),
     'Access-Control-Allow-Methods': 'GET, POST, PATCH, OPTIONS',
     'Access-Control-Allow-Headers': 'content-type, x-demo-key',
     'Access-Control-Max-Age': '86400',

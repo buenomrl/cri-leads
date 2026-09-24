@@ -5,6 +5,8 @@
 // Em troca, o formato do request fica explicito aqui — o que e' bom quando o
 // assunto do projeto e' justamente o que entra e o que sai do modelo.
 
+import { interpretarResposta } from '../_shared/model-response.ts';
+
 import { env } from './env.ts';
 
 const ENDPOINT = 'https://api.anthropic.com/v1/messages';
@@ -69,26 +71,12 @@ export async function chamarClaude(opcoes: {
       throw new ErroProvedor(`provedor respondeu ${resposta.status}`);
     }
 
-    const dados = await resposta.json();
+    // O que conta como resposta valida (so' `end_turn`, so' blocos de texto)
+    // e' regra pura e testada — ver _shared/model-response.ts.
+    const lida = interpretarResposta(await resposta.json());
+    if (!lida.ok) throw new ErroProvedor(lida.motivo);
 
-    // So' `end_turn` e' resposta completa. `max_tokens` e' texto cortado no
-    // meio e `refusal` e' o modelo declinando — os dois passariam pelo guard
-    // parecendo mensagem valida, entao viram erro e o pipeline cai no fallback.
-    if (dados?.stop_reason !== 'end_turn') {
-      throw new ErroProvedor(`resposta incompleta (stop_reason: ${dados?.stop_reason ?? 'ausente'})`);
-    }
-
-    const texto = (dados?.content ?? [])
-      .filter((bloco: { type?: string }) => bloco?.type === 'text')
-      .map((bloco: { text?: string }) => bloco.text ?? '')
-      .join('')
-      .trim();
-
-    return {
-      texto,
-      tokensEntrada: dados?.usage?.input_tokens ?? 0,
-      tokensSaida: dados?.usage?.output_tokens ?? 0,
-    };
+    return { texto: lida.texto, tokensEntrada: lida.tokensEntrada, tokensSaida: lida.tokensSaida };
   } catch (erro) {
     if (erro instanceof ErroProvedor) throw erro;
     if (erro instanceof Error && erro.name === 'AbortError') {
@@ -97,24 +85,5 @@ export async function chamarClaude(opcoes: {
     throw new ErroProvedor(erro instanceof Error ? erro.message : 'falha ao chamar o provedor');
   } finally {
     clearTimeout(timer);
-  }
-}
-
-/**
- * Le JSON que veio do modelo.
- *
- * O prompt pede JSON puro, mas modelo as vezes embrulha em cerca de codigo ou
- * acrescenta uma frase. Em vez de confiar, recorta do primeiro `{` ao ultimo
- * `}`. Se ainda assim nao for JSON, devolve null e quem chamou decide — nunca
- * lanca, porque falha de parse aqui tem de virar fallback, nao erro 500.
- */
-export function lerJsonDoModelo(texto: string): unknown {
-  const inicio = texto.indexOf('{');
-  const fim = texto.lastIndexOf('}');
-  if (inicio === -1 || fim <= inicio) return null;
-  try {
-    return JSON.parse(texto.slice(inicio, fim + 1));
-  } catch {
-    return null;
   }
 }

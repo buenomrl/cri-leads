@@ -35,6 +35,7 @@ import {
   type Extracao,
 } from '../_shared/compose-message.ts';
 import { LIMITES } from '../_shared/domain.ts';
+import { lerJsonDoModelo } from '../_shared/model-response.ts';
 import { verificarMensagem, type MotivoBloqueio } from '../_shared/output-guard.ts';
 import { limparTexto } from '../_shared/validation.ts';
 import {
@@ -47,7 +48,7 @@ import {
   SYSTEM_REDACAO,
 } from '../_shared/prompt-first-message.v1.ts';
 
-import { chamarClaude, ErroProvedor, lerJsonDoModelo } from '../_server/anthropic.ts';
+import { chamarClaude, ErroProvedor } from '../_server/anthropic.ts';
 import { exigirChaveDemo } from '../_server/demo-key.ts';
 import { adminClient } from '../_server/env.ts';
 import { handler, HttpError, json, lerJson } from '../_server/http.ts';
