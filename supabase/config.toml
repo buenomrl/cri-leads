@@ -1,0 +1,18 @@
+# Só o necessário para `supabase functions deploy`. O banco é migrado à mão
+# pelo SQL Editor — ver CLAUDE.md.
+#
+# ⚠️ `verify_jwt = false` nas duas rotas é deliberado, não esquecimento.
+# A alternativa seria embutir a anon key no bundle do front só para satisfazer
+# o verify do gateway, o que contradiz a decisão central do projeto (o
+# navegador não carrega credencial de banco nenhuma). Como as tabelas estão
+# com RLS ligada e sem GRANT para `anon`, a anon key nunca foi o que protegia
+# nada aqui. Quem controla escrita é a chave de demo, checada dentro de cada
+# function. Ver SECURITY.md.
+
+project_id = "SEU_PROJECT_REF"
+
+[functions.leads]
+verify_jwt = false
+
+[functions.agent-first-message]
+verify_jwt = false
