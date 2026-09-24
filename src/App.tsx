@@ -10,6 +10,7 @@ import { MODO_LOCAL, obterApi } from './api/client.ts';
 import { ErroApi, type ListaResposta } from './api/types.ts';
 import { AgentPanel } from './components/AgentPanel.tsx';
 import { DemoKeyDialog } from './components/DemoKeyDialog.tsx';
+import { LeadSearch } from './components/LeadSearch.tsx';
 import { LeadsTable } from './components/LeadsTable.tsx';
 import { NewLeadDialog } from './components/NewLeadDialog.tsx';
 import { OrigemChart } from './components/OrigemChart.tsx';
@@ -17,6 +18,7 @@ import { StatusFilter, type Filtro } from './components/StatusFilter.tsx';
 import { SummaryTiles } from './components/SummaryTiles.tsx';
 import { TopBar } from './components/TopBar.tsx';
 import { apagarChaveDemo, lerChaveDemo, salvarChaveDemo } from './demo-key.ts';
+import { buscarLeads, ordenarLeads, proximaOrdem, type Ordem } from './lead-list.ts';
 
 const DIA_MS = 24 * 60 * 60 * 1000;
 
@@ -24,6 +26,8 @@ export function App() {
   const [dados, setDados] = useState<ListaResposta | null>(null);
   const [erro, setErro] = useState<string | null>(null);
   const [filtro, setFiltro] = useState<Filtro>('todos');
+  const [busca, setBusca] = useState('');
+  const [ordem, setOrdem] = useState<Ordem>(null);
   const [chave, setChave] = useState<string | null>(lerChaveDemo);
   const [pedindoChave, setPedindoChave] = useState(false);
   const [criando, setCriando] = useState(false);
@@ -113,9 +117,15 @@ export function App() {
     setLeadDoAgente(lead);
   }
 
-  const visiveis = useMemo(
+  // Filtro de status -> busca livre -> ordenacao. As pilulas de status seguem
+  // contando a base inteira (vem do resumo do servidor), nao o resultado da busca.
+  const doStatus = useMemo(
     () => (dados ? dados.leads.filter((l) => filtro === 'todos' || l.status === filtro) : []),
     [dados, filtro],
+  );
+  const visiveis = useMemo(
+    () => ordenarLeads(buscarLeads(doStatus, busca), ordem),
+    [doStatus, busca, ordem],
   );
 
   const periodoDias = useMemo(() => {
@@ -182,10 +192,19 @@ export function App() {
                   porStatus={dados.resumo.porStatus}
                   onMudar={setFiltro}
                 />
+                <LeadSearch
+                  termo={busca}
+                  mostrando={visiveis.length}
+                  total={doStatus.length}
+                  onMudar={setBusca}
+                />
                 <LeadsTable
                   leads={visiveis}
                   escritaLiberada={chave !== null}
                   salvando={salvando}
+                  ordem={ordem}
+                  busca={busca}
+                  onOrdenar={(coluna) => setOrdem((atual) => proximaOrdem(atual, coluna))}
                   onMudarStatus={mudarStatus}
                   onAbrirAgente={abrirAgente}
                 />

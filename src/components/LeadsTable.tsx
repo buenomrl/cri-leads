@@ -6,25 +6,60 @@ import {
   type Status,
 } from '@shared/domain.ts';
 
+import type { ColunaOrdenavel, Ordem } from '../lead-list.ts';
+
 interface Props {
   leads: Lead[];
   escritaLiberada: boolean;
   /** ids dos leads com mudanca de status em andamento. */
   salvando: ReadonlySet<string>;
+  ordem: Ordem;
+  /** Termo buscado, so' para a mensagem de lista vazia. */
+  busca: string;
+  onOrdenar: (coluna: ColunaOrdenavel) => void;
   onMudarStatus: (lead: Lead, status: Status) => void;
   onAbrirAgente: (lead: Lead) => void;
 }
 
-export function LeadsTable({ leads, escritaLiberada, salvando, onMudarStatus, onAbrirAgente }: Props) {
+const COLUNAS: { coluna: ColunaOrdenavel; rotulo: string }[] = [
+  { coluna: 'nome', rotulo: 'Nome' },
+  { coluna: 'telefone', rotulo: 'Telefone' },
+  { coluna: 'imovel_interesse', rotulo: 'Imóvel de interesse' },
+  { coluna: 'origem', rotulo: 'Origem' },
+];
+
+export function LeadsTable({
+  leads,
+  escritaLiberada,
+  salvando,
+  ordem,
+  busca,
+  onOrdenar,
+  onMudarStatus,
+  onAbrirAgente,
+}: Props) {
   return (
     <div className="cartao tabela-caixa">
       <table>
         <thead>
           <tr>
-            <th scope="col">Nome</th>
-            <th scope="col">Telefone</th>
-            <th scope="col">Imóvel de interesse</th>
-            <th scope="col">Origem</th>
+            {COLUNAS.map(({ coluna, rotulo }) => {
+              const ativa = ordem?.coluna === coluna ? ordem.direcao : null;
+              return (
+                <th
+                  key={coluna}
+                  scope="col"
+                  aria-sort={ativa === 'asc' ? 'ascending' : ativa === 'desc' ? 'descending' : 'none'}
+                >
+                  <button type="button" className={`ordenar${ativa ? ' ativa' : ''}`} onClick={() => onOrdenar(coluna)}>
+                    {rotulo}
+                    <span aria-hidden="true" className="seta-ordem">
+                      {ativa === 'asc' ? '▲' : ativa === 'desc' ? '▼' : '↕'}
+                    </span>
+                  </button>
+                </th>
+              );
+            })}
             <th scope="col">Status</th>
             <th scope="col">Agente</th>
           </tr>
@@ -32,7 +67,9 @@ export function LeadsTable({ leads, escritaLiberada, salvando, onMudarStatus, on
         <tbody>
           {leads.length === 0 && (
             <tr>
-              <td colSpan={6} className="vazio">Nenhum lead com este status.</td>
+              <td colSpan={6} className="vazio">
+                {busca.trim() ? `Nenhum lead encontrado para “${busca.trim()}”.` : 'Nenhum lead com este status.'}
+              </td>
             </tr>
           )}
           {leads.map((lead) => (
