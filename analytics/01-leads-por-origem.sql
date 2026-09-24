@@ -12,8 +12,15 @@ group by origem
 order by leads desc;
 
 -- ---------------------------------------------------------------------
--- RESULTADO  (preenchido apos a execucao)
+-- RESULTADO
 -- ---------------------------------------------------------------------
+-- Rodado em 2026-09-24 no projeto cri-leads-br (sa-east-1), sobre o seed da migracao 02.
+--
+--    origem    | leads | percentual
+--   -----------+-------+-----------
+--    site      |    12 |       48.0
+--    whatsapp  |     8 |       32.0
+--    indicacao |     5 |       20.0
 --
 -- ---------------------------------------------------------------------
 -- LEITURA

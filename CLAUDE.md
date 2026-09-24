@@ -100,7 +100,8 @@ nunca enviada. O alvo real de um prompt injection aqui é o humano que copia e c
 
 ## Infra
 
-- **Supabase** projeto `cri-leads`, região `sa-east-1`. ⚠️ Vive numa **segunda conta** Supabase: o
+- **Supabase** projeto `cri-leads-br` (ref `elgrlpmrlxmffcpllvsv`), região `sa-east-1`. O primeiro
+  projeto saiu em `us-east-1` por engano e foi recriado — região não muda depois de criado. ⚠️ Vive numa **segunda conta** Supabase: o
   free tier limita a 2 projetos ativos **por usuário** (não por organização — criar outra org não
   resolve, a mensagem de erro é explícita). O CLI convive com as duas contas pela variável
   `SUPABASE_ACCESS_TOKEN` (Personal Access Token da conta nova), que tem precedência sobre o login

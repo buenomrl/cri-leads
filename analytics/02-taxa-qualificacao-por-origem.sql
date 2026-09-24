@@ -15,8 +15,15 @@ group by origem
 order by taxa_qualificacao_pct desc;
 
 -- ---------------------------------------------------------------------
--- RESULTADO  (preenchido apos a execucao)
+-- RESULTADO
 -- ---------------------------------------------------------------------
+-- Rodado em 2026-09-24 no projeto cri-leads-br (sa-east-1), sobre o seed da migracao 02.
+--
+--    origem    | leads | qualificados | taxa_qualificacao_pct
+--   -----------+-------+--------------+----------------------
+--    indicacao |     5 |            3 |                  60.0
+--    whatsapp  |     8 |            2 |                  25.0
+--    site      |    12 |            2 |                  16.7
 --
 -- ---------------------------------------------------------------------
 -- LEITURA

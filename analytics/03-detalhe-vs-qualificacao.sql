@@ -53,8 +53,29 @@ group by origem
 order by pct_detalhado desc;
 
 -- ---------------------------------------------------------------------
--- RESULTADO  (preenchido apos a execucao)
+-- RESULTADO
 -- ---------------------------------------------------------------------
+-- Rodado em 2026-09-24 no projeto cri-leads-br (sa-east-1), sobre o seed da migracao 02.
+--
+--   3a.
+--    tipo_pedido      | leads | qualificados | taxa_qualificacao_pct
+--   ------------------+-------+--------------+----------------------
+--    pedido detalhado |    13 |            6 |                  46.2
+--    pedido vago      |    12 |            1 |                   8.3
+--
+--   3b.
+--    origem    | novo | em_contato | qualificado | perdido | total
+--   -----------+------+------------+-------------+---------+------
+--    site      |    4 |          3 |           2 |       3 |    12
+--    whatsapp  |    2 |          3 |           2 |       1 |     8
+--    indicacao |    1 |          1 |           3 |       0 |     5
+--
+--   3c.
+--    origem    | pedidos_detalhados | leads | pct_detalhado
+--   -----------+--------------------+-------+--------------
+--    indicacao |                  3 |     5 |          60.0
+--    site      |                  6 |    12 |          50.0
+--    whatsapp  |                  4 |     8 |          50.0
 --
 -- ---------------------------------------------------------------------
 -- LEITURA
