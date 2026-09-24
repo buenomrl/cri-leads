@@ -32,6 +32,7 @@ export function App() {
   const [pedindoChave, setPedindoChave] = useState(false);
   const [criando, setCriando] = useState(false);
   const [salvando, setSalvando] = useState<ReadonlySet<string>>(new Set());
+  const [recemSalvo, setRecemSalvo] = useState<string | null>(null);
   const [leadDoAgente, setLeadDoAgente] = useState<Lead | null>(null);
 
   const carregar = useCallback(async () => {
@@ -101,6 +102,9 @@ export function App() {
       const api = await obterApi();
       await api.mudarStatus(lead.id, status, chave);
       await carregar();
+      // Brilho breve na linha salva: confirma sem precisar de aviso na tela.
+      setRecemSalvo(lead.id);
+      setTimeout(() => setRecemSalvo((atual) => (atual === lead.id ? null : atual)), 1200);
     } catch (e) {
       tratarErroEscrita(e, 'Não foi possível atualizar o status.');
     } finally {
@@ -204,6 +208,8 @@ export function App() {
                   salvando={salvando}
                   ordem={ordem}
                   busca={busca}
+                  chaveLista={`${filtro}|${ordem?.coluna ?? ''}|${ordem?.direcao ?? ''}`}
+                  recemSalvo={recemSalvo}
                   onOrdenar={(coluna) => setOrdem((atual) => proximaOrdem(atual, coluna))}
                   onMudarStatus={mudarStatus}
                   onAbrirAgente={abrirAgente}

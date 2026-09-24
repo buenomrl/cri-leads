@@ -6,14 +6,14 @@ export function SummaryTiles({ resumo }: { resumo: Resumo }) {
     <section className="tiles" aria-label="Resumo por status">
       <div className="cartao tile">
         <span className="rotulo">Total</span>
-        <span className="tile-valor num">{resumo.total}</span>
+        <span key={resumo.total} className="tile-valor num">{resumo.total}</span>
       </div>
       {STATUS_ORDEM.map((s) => (
         <div key={s} className="cartao tile">
           <span className="rotulo" style={{ color: `var(--st-${s})` }}>
             {STATUS_LABEL[s]}
           </span>
-          <span className="tile-valor num">{resumo.porStatus[s]}</span>
+          <span key={resumo.porStatus[s]} className="tile-valor num">{resumo.porStatus[s]}</span>
         </div>
       ))}
     </section>

@@ -5,7 +5,7 @@
 // agentes, o caminho e' parte do resultado — e e' o que deixa quem avalia ver
 // a defesa contra injecao funcionando, em vez de ler que ela existe.
 
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 
 import type { FaltaSaber } from '@shared/compose-message.ts';
 import { ORIGEM_LABEL, type Lead } from '@shared/domain.ts';
@@ -204,9 +204,9 @@ export function AgentPanel({ lead, chave, onPedirChave, onChaveRecusada, onVolta
         )}
       </section>
 
-      <section className="pipeline" aria-label="Pipeline do agente">
-        {passos.map((p) => (
-          <div key={p.nome} className={`cartao passo ${p.estado}`}>
+      <section key={resposta ? 'com-resposta' : 'sem-resposta'} className="pipeline" aria-label="Pipeline do agente">
+        {passos.map((p, i) => (
+          <div key={p.nome} className={`cartao passo ${p.estado}`} style={{ '--i': i } as CSSProperties}>
             <span className="rotulo">{p.ordem}</span>
             <span className="passo-nome">{p.nome}</span>
             <span className="passo-detalhe">{p.detalhe}</span>

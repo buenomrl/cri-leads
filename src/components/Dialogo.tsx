@@ -2,8 +2,15 @@
 // clicando no backdrop NAO vem de graca — e' o onClick abaixo: o conteudo
 // ocupa o dialog inteiro, entao um clique cujo alvo e' o proprio <dialog> so'
 // pode ter sido fora dele.
+//
+// Animacao de entrada e saida: CSS (`@starting-style`, em styles.css). Para a
+// SAIDA aparecer, o conteudo continua montado enquanto o dialog some, e so'
+// desmonta depois — desmontar na hora deixaria uma caixa vazia esmaecendo.
 
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+
+/** Um pouco mais que a duracao da transicao de saida em styles.css (--dur). */
+const TEMPO_SAIDA_MS = 280;
 
 interface Props {
   aberto: boolean;
@@ -14,12 +21,19 @@ interface Props {
 
 export function Dialogo({ aberto, onFechar, rotulo, children }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
+  const [montado, setMontado] = useState(aberto);
 
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
-    if (aberto && !d.open) d.showModal();
-    if (!aberto && d.open) d.close();
+    if (aberto) {
+      setMontado(true);
+      if (!d.open) d.showModal();
+      return;
+    }
+    if (d.open) d.close();
+    const t = setTimeout(() => setMontado(false), TEMPO_SAIDA_MS);
+    return () => clearTimeout(t);
   }, [aberto]);
 
   return (
@@ -31,7 +45,7 @@ export function Dialogo({ aberto, onFechar, rotulo, children }: Props) {
         if (e.target === ref.current) ref.current.close();
       }}
     >
-      {aberto && children}
+      {montado && children}
     </dialog>
   );
 }

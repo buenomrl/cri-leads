@@ -69,7 +69,6 @@ h1, h2, p { margin: 0; }
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .btn:hover:not(:disabled) { border-color: var(--tinta-3); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -169,7 +168,7 @@ h1, h2, p { margin: 0; }
 .barra-linha { display: grid; grid-template-columns: 96px minmax(0, 1fr) 120px; gap: 20px; align-items: center; font-size: 13px; }
 .barra-pilha { display: flex; flex-direction: column; gap: 6px; }
 .trilho { height: 10px; border-radius: 5px; background: rgba(22, 20, 15, 0.05); overflow: hidden; }
-.trilho > div { height: 100%; border-radius: 5px; transition: width 0.4s ease; }
+.trilho > div { height: 100%; border-radius: 5px; }
 .leitura { padding-top: 14px; border-top: 1px solid var(--linha); font-size: 13px; line-height: 1.6; color: var(--tinta-2); display: flex; flex-direction: column; gap: 4px; }
 
 /* ---------- filtro + tabela ---------- */
@@ -287,7 +286,6 @@ dialog {
   color: var(--tinta);
   box-shadow: 0 24px 64px rgba(22, 20, 15, 0.18);
 }
-dialog::backdrop { background: rgba(22, 20, 15, 0.32); }
 .dialogo { padding: 28px; display: flex; flex-direction: column; gap: 18px; }
 .dialogo h2 { font-family: var(--serif); font-weight: 400; font-size: 30px; }
 .dialogo-acoes { display: flex; justify-content: flex-end; gap: 10px; }
@@ -378,4 +376,137 @@ dialog::backdrop { background: rgba(22, 20, 15, 0.32); }
   .campos-2 { grid-template-columns: 1fr; }
   .grafico { padding: 22px 20px; }
   .modo { display: none; }
+}
+
+/* =====================================================================
+   Movimento
+   ---------------------------------------------------------------------
+   Curto e discreto: so' opacity e transform (nao pesa no navegador), nada
+   que atrase o clique. Tudo desligado em `prefers-reduced-motion`, no fim.
+   ===================================================================== */
+:root {
+  --dur-rapida: 150ms;
+  --dur: 240ms;
+  --dur-lenta: 320ms;
+  --curva: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes aparecer {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes crescer {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes brilho {
+  from { background-color: rgba(255, 106, 0, 0.14); }
+  to { background-color: transparent; }
+}
+@keyframes pulsar {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+/* Botoes e pilulas: cor desliza, clique afunda de leve */
+.btn {
+  transition:
+    background-color var(--dur) var(--curva),
+    border-color var(--dur) var(--curva),
+    color var(--dur) var(--curva),
+    box-shadow var(--dur) var(--curva),
+    transform var(--dur-rapida) var(--curva);
+}
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn-primario:hover:not(:disabled) { box-shadow: 0 6px 18px rgba(22, 20, 15, 0.18); }
+.btn-acento:hover:not(:disabled) { box-shadow: 0 4px 14px rgba(194, 65, 12, 0.12); }
+.pilula .num { transition: opacity var(--dur) var(--curva); }
+
+/* Seta da ordenacao: gira entre crescente e decrescente */
+.seta-ordem { display: inline-block; transition: transform var(--dur) var(--curva), opacity var(--dur) var(--curva), color var(--dur) var(--curva); }
+.seta-ordem.desc { transform: rotate(180deg); }
+
+/* Busca: borda acende e o campo alarga um pouco ao focar */
+.busca-campo { transition: border-color var(--dur) var(--curva), box-shadow var(--dur) var(--curva), max-width var(--dur-lenta) var(--curva), color var(--dur) var(--curva); }
+.busca-campo:focus-within { box-shadow: 0 0 0 4px rgba(194, 65, 12, 0.08); max-width: 520px; }
+.busca-limpar { animation: aparecer var(--dur-rapida) var(--curva); transition: background-color var(--dur-rapida) var(--curva), transform var(--dur-rapida) var(--curva); }
+.busca-limpar:active { transform: scale(0.9); }
+.busca-contagem { animation: aparecer var(--dur) var(--curva); }
+
+/* Lista: linhas entram em cascata (so' as 12 primeiras tem atraso) */
+tbody tr {
+  animation: entrar var(--dur-lenta) var(--curva) both;
+  animation-delay: calc(min(var(--i, 0), 12) * 25ms);
+}
+tbody tr { transition: background-color var(--dur) var(--curva); }
+tbody tr:hover { background-color: rgba(22, 20, 15, 0.018); }
+tr.salvo td { animation: brilho 900ms ease-out; }
+select.status { transition: background-color var(--dur) var(--curva), color var(--dur) var(--curva); }
+
+/* Numeros do resumo: o valor novo entra ao mudar */
+.tile-valor { animation: entrar var(--dur) var(--curva); }
+
+/* Barras do grafico: crescem na primeira carga, deslizam quando mudam */
+.trilho > div {
+  transform-origin: left center;
+  animation: crescer 600ms var(--curva) both;
+  transition: width 500ms var(--curva);
+}
+.barra-linha:nth-child(2) .trilho > div { animation-delay: 60ms; }
+.barra-linha:nth-child(3) .trilho > div { animation-delay: 120ms; }
+
+/* Troca de tela (painel <-> agente) */
+.pagina { animation: entrar var(--dur-lenta) var(--curva); }
+
+/* Dialogos: fade + leve zoom na entrada e na saida; fundo escurece aos poucos.
+   `@starting-style` + `allow-discrete` (navegadores atuais); navegador antigo
+   so' abre sem animacao. */
+dialog {
+  opacity: 0;
+  transform: translateY(10px) scale(0.97);
+  transition:
+    opacity var(--dur) var(--curva),
+    transform var(--dur) var(--curva),
+    overlay var(--dur) allow-discrete,
+    display var(--dur) allow-discrete;
+}
+dialog[open] { opacity: 1; transform: none; }
+@starting-style {
+  dialog[open] { opacity: 0; transform: translateY(10px) scale(0.97); }
+}
+dialog::backdrop {
+  background: rgba(22, 20, 15, 0);
+  transition:
+    background-color var(--dur) var(--curva),
+    overlay var(--dur) allow-discrete,
+    display var(--dur) allow-discrete;
+}
+dialog[open]::backdrop { background: rgba(22, 20, 15, 0.32); }
+@starting-style {
+  dialog[open]::backdrop { background: rgba(22, 20, 15, 0); }
+}
+
+/* Agente: os passos acendem em sequencia; blocos do resultado entram */
+.passo {
+  animation: entrar var(--dur-lenta) var(--curva) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+  transition: border-top-color var(--dur-lenta) var(--curva);
+}
+.agente-grade > * { animation: entrar var(--dur-lenta) var(--curva) both; }
+.agente-grade > *:nth-child(2) { animation-delay: 90ms; }
+.carregando { animation: pulsar 1.2s ease-in-out infinite; }
+.aviso { animation: entrar var(--dur) var(--curva); }
+
+/* Quem pede menos movimento no sistema nao ve nada disso */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after, ::backdrop {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

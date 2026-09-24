@@ -6,6 +6,8 @@ import {
   type Status,
 } from '@shared/domain.ts';
 
+import type { CSSProperties } from 'react';
+
 import type { ColunaOrdenavel, Ordem } from '../lead-list.ts';
 
 interface Props {
@@ -16,6 +18,10 @@ interface Props {
   ordem: Ordem;
   /** Termo buscado, so' para a mensagem de lista vazia. */
   busca: string;
+  /** Muda quando filtro ou ordem mudam: reanima a lista inteira. */
+  chaveLista: string;
+  /** Lead cujo status acabou de ser salvo: ganha um brilho breve de confirmacao. */
+  recemSalvo: string | null;
   onOrdenar: (coluna: ColunaOrdenavel) => void;
   onMudarStatus: (lead: Lead, status: Status) => void;
   onAbrirAgente: (lead: Lead) => void;
@@ -34,6 +40,8 @@ export function LeadsTable({
   salvando,
   ordem,
   busca,
+  chaveLista,
+  recemSalvo,
   onOrdenar,
   onMudarStatus,
   onAbrirAgente,
@@ -53,8 +61,9 @@ export function LeadsTable({
                 >
                   <button type="button" className={`ordenar${ativa ? ' ativa' : ''}`} onClick={() => onOrdenar(coluna)}>
                     {rotulo}
-                    <span aria-hidden="true" className="seta-ordem">
-                      {ativa === 'asc' ? '▲' : ativa === 'desc' ? '▼' : '↕'}
+                    {/* Um so' triangulo que GIRA entre asc e desc, em vez de trocar de caractere. */}
+                    <span aria-hidden="true" className={`seta-ordem${ativa === 'desc' ? ' desc' : ''}`}>
+                      {ativa ? '▲' : '↕'}
                     </span>
                   </button>
                 </th>
@@ -64,7 +73,10 @@ export function LeadsTable({
             <th scope="col">Agente</th>
           </tr>
         </thead>
-        <tbody>
+        {/* `key` troca com filtro e ordem: a lista inteira reanima ("virada de
+            pagina"). A busca NAO entra na key — reanimar a cada letra tremeria;
+            ali so' as linhas que aparecem montam e animam (key={lead.id}). */}
+        <tbody key={chaveLista}>
           {leads.length === 0 && (
             <tr>
               <td colSpan={6} className="vazio">
@@ -72,8 +84,12 @@ export function LeadsTable({
               </td>
             </tr>
           )}
-          {leads.map((lead) => (
-            <tr key={lead.id}>
+          {leads.map((lead, i) => (
+            <tr
+              key={lead.id}
+              className={recemSalvo === lead.id ? 'salvo' : undefined}
+              style={{ '--i': i } as CSSProperties}
+            >
               <td className="col-nome">{lead.nome}</td>
               <td className="col-tel num" title="Mascarado na listagem pública">{lead.telefone}</td>
               <td className="col-imovel">{lead.imovel_interesse}</td>

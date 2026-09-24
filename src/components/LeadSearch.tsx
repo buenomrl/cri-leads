@@ -29,7 +29,7 @@ export function LeadSearch({ termo, mostrando, total, onMudar }: Props) {
           </button>
         )}
       </label>
-      <span className="fraco num busca-contagem" aria-live="polite">
+      <span key={mostrando} className="fraco num busca-contagem" aria-live="polite">
         Mostrando {mostrando} de {total}
       </span>
     </div>
