@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Agente — primeira mensagem</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#FAF8F4;font-family:'DM Sans',system-ui,sans-serif;color:#16140F;-webkit-font-smoothing:antialiased}
+  a{color:#8A5A2B}a:hover{color:#6B441F}
+</style>
+</helmet>
+
+<div style="width: 1280px; height: 1000px; box-sizing: border-box; background: #FAF8F4; padding: 44px 56px; display: flex; flex-direction: column; gap: 28px">
+
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 11px; font-weight: 600; letter-spacing: .14em; color: #8A8377; text-transform: uppercase">Agente · primeira mensagem</span>
+      <h1 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; font-weight: 400; line-height: 1.05">Felipe Andrade Castilho</h1>
+    </div>
+    <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; color: #23624A; background: rgba(35,98,74,.10); border-radius: 999px; padding: 8px 16px; font-weight: 500">Guard aprovou · 2,7 s</span>
+  </div>
+
+  <!-- entrada -->
+  <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 22px 26px; display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <span style="font-size: 11px; font-weight: 600; letter-spacing: .1em; color: #8A8377; text-transform: uppercase">Texto do lead</span>
+      <span style="font-size: 11px; font-weight: 500; color: #8E4433; background: rgba(142,68,51,.10); border-radius: 999px; padding: 4px 10px">entrada não confiável</span>
+    </div>
+    <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #16140F">Apartamento Alto de Pinheiros, 4 dormitórios, até R$ 6,5 milhões</p>
+    <p style="margin: 0; font-size: 12.5px; color: #8A8377; font-variant-numeric: tabular-nums">WhatsApp · (11) 9****-**10</p>
+  </div>
+
+  <!-- pipeline -->
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+    <sc-for list="{{passos}}" as="passo" hint-placeholder-count="4">
+      <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 7px">
+        <span style="font-size: 10.5px; font-weight: 600; letter-spacing: .1em; color: #8A8377; text-transform: uppercase">{{passo.ordem}}</span>
+        <span style="font-size: 14.5px; font-weight: 600">{{passo.nome}}</span>
+        <span style="font-size: 12.5px; color: #4A453C; line-height: 1.4">{{passo.detalhe}}</span>
+        <span style="font-size: 12px; font-weight: 500; color: {{passo.cor}}; font-variant-numeric: tabular-nums">{{passo.estado}}</span>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 20px; flex-grow: 1">
+
+    <!-- extracao -->
+    <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 24px 26px; display: flex; flex-direction: column; gap: 18px">
+      <h2 style="margin: 0; font-size: 14px; font-weight: 600">O que o modelo extraiu</h2>
+
+      <div style="display: flex; flex-direction: column; gap: 11px">
+        <sc-for list="{{campos}}" as="campo" hint-placeholder-count="5">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(22,20,15,.06)">
+            <span style="font-size: 12.5px; color: #8A8377">{{campo.chave}}</span>
+            <span style="font-size: 13.5px; font-weight: 500; text-align: right">{{campo.valor}}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 9px">
+        <span style="font-size: 12.5px; color: #8A8377">falta saber</span>
+        <div style="display: flex; flex-wrap: wrap; gap: 7px">
+          <span style="font-size: 12px; font-weight: 500; color: #8A5A2B; background: rgba(138,90,43,.10); border-radius: 999px; padding: 6px 13px">orçamento</span>
+          <span style="font-size: 12px; font-weight: 500; color: #4A453C; background: rgba(22,20,15,.05); border-radius: 999px; padding: 6px 13px">prazo</span>
+          <span style="font-size: 12px; font-weight: 500; color: #4A453C; background: rgba(22,20,15,.05); border-radius: 999px; padding: 6px 13px">financiamento</span>
+        </div>
+      </div>
+
+      <p style="margin: 0; padding-top: 14px; border-top: 1px solid rgba(22,20,15,.08); font-size: 12.5px; line-height: 1.55; color: #4A453C">A pergunta da mensagem sai daqui por regra fixa, não do modelo. Região já é conhecida, então a vez é do <strong style="font-weight: 600">orçamento</strong>.</p>
+    </div>
+
+    <!-- mensagem -->
+    <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 24px 28px; display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px">
+        <h2 style="margin: 0; font-size: 14px; font-weight: 600">Mensagem sugerida</h2>
+        <span style="font-size: 11.5px; color: #8A8377">Sonnet · v1 · 412 tokens</span>
+      </div>
+
+      <div style="box-sizing: border-box; background: #FAF8F4; border-left: 2px solid #8A5A2B; border-radius: 0 10px 10px 0; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px">
+        <p style="margin: 0; font-size: 15px; line-height: 1.62; color: #16140F">Olá, Felipe! Aqui é da CRI Soluções Imobiliárias. Obrigado pelo seu contato — registrei seu interesse em um apartamento de 4 dormitórios na região do Alto de Pinheiros.</p>
+        <p style="margin: 0; font-size: 15px; line-height: 1.62; color: #16140F">Para eu selecionar apenas o que realmente faz sentido antes de te enviar qualquer material, qual faixa de investimento você tem em mente para esta aquisição?</p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px">
+        <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; color: #FAF8F4; background: #16140F; border: none; border-radius: 999px; padding: 12px 22px; cursor: pointer; min-height: 44px">Copiar mensagem</button>
+        <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; color: #16140F; background: transparent; border: 1px solid rgba(22,20,15,.20); border-radius: 999px; padding: 12px 22px; cursor: pointer; min-height: 44px">Gerar outra</button>
+      </div>
+
+      <p style="margin: 0; font-size: 12.5px; line-height: 1.55; color: #4A453C; padding: 14px 16px; background: rgba(22,20,15,.035); border-radius: 10px">Nada é enviado por este sistema. A mensagem é uma sugestão para uma pessoa ler, ajustar e enviar — e essa revisão é a última linha de defesa contra um texto de lead que tente dar ordens ao modelo.</p>
+
+      <div style="flex-grow: 1"></div>
+
+      <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; color: #8E4433; background: transparent; border: 1px dashed rgba(142,68,51,.42); border-radius: 12px; padding: 14px 22px; cursor: pointer; min-height: 44px; align-self: flex-start">Testar com entrada hostil →</button>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      passos: [
+        { ordem: 'passo 1', nome: 'Extração', detalhe: 'Haiku lê o texto livre e devolve JSON de domínio fechado', estado: 'ok · 0,8 s', cor: '#23624A' },
+        { ordem: 'fronteira', nome: 'Saneamento', detalhe: 'Tipo forçado, campos cortados em 80, tag e controle removidos', estado: 'ok', cor: '#23624A' },
+        { ordem: 'passo 2', nome: 'Redação', detalhe: 'Sonnet vê só os campos saneados, nunca o texto do lead', estado: 'ok · 1,9 s', cor: '#23624A' },
+        { ordem: 'saída', nome: 'Guard', detalhe: 'Link, e-mail, telefone de terceiro, vazamento de instrução', estado: 'aprovado', cor: '#23624A' },
+      ],
+      campos: [
+        { chave: 'tipo_imovel', valor: 'apartamento' },
+        { chave: 'bairro', valor: 'Alto de Pinheiros' },
+        { chave: 'dormitorios', valor: '4' },
+        { chave: 'sinal_orcamento', valor: 'até R$ 6,5 milhões' },
+        { chave: 'intencao', valor: 'compra' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

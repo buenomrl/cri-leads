@@ -56,7 +56,10 @@ pega a inversão, e aí o controle custa mais do que rende.
 
 ### Camadas
 
-- `src/` — front (Vite + React 19 + TS). Única variável: `VITE_API_BASE_URL`.
+- `src/` — front (Vite + React 19 + TS). Única variável: `VITE_API_BASE_URL`. `src/api/client.ts` é
+  o único ponto que conhece a URL e manda `x-demo-key`. Sem a variável, em `npm run dev`, roda contra
+  `src/api/demo-local.ts` (API em memória com as funções reais de `_shared`); a condição fica inline
+  com `import.meta.env.DEV` para o módulo **sair do bundle de produção** — conferir com grep no `dist/`.
 - `supabase/functions/_shared/` — **camada de regra pura**, isomórfica: sem API do Deno, sem
   `fetch`, sem env. Importada pelo front (alias `@shared`), pelos testes e pelas functions. É aqui
   que vive a única implementação de cada regra, então tela, servidor e teste concordam por
@@ -99,8 +102,10 @@ nunca enviada. O alvo real de um prompt injection aqui é o humano que copia e c
 
 - **Supabase** projeto `cri-leads`, região `sa-east-1`. ⚠️ Vive numa **segunda conta** Supabase: o
   free tier limita a 2 projetos ativos **por usuário** (não por organização — criar outra org não
-  resolve, a mensagem de erro é explícita). O CLI convive com as duas contas via
-  `npx supabase login --profile cri` e `--profile cri` em todo comando.
+  resolve, a mensagem de erro é explícita). O CLI convive com as duas contas pela variável
+  `SUPABASE_ACCESS_TOKEN` (Personal Access Token da conta nova), que tem precedência sobre o login
+  salvo. O token fica em `.env.supabase.local` (gitignorado por `.env.*`). ⚠️ **Não** usar
+  `--profile`: essa flag escolhe o endpoint da API, não a conta (`Unsupported Config Type`).
 - ⚠️ Projeto free **pausa após ~7 dias** sem atividade e o link publicado é entregável duro. Um cron
   externo grátis pinga a rota de listagem uma vez por dia.
 - **Vercel** para o front. **GitHub** público `buenomrl/cri-leads`.
@@ -110,11 +115,13 @@ nunca enviada. O alvo real de um prompt injection aqui é o humano que copia e c
 
 ```bash
 npm install
-npm run dev          # front em :5173
+npm run dev          # front em :5173; sem VITE_API_BASE_URL roda em modo local (API em memória)
 npm test             # camada de regra
 npm run typecheck
 npm run build
 
-npx supabase secrets set NOME=valor --profile cri     # rodado pelo dono do projeto
-npx supabase functions deploy --profile cri --project-ref <ref>
+# conta Supabase do projeto: token lido do arquivo local, nunca colado no comando
+export $(grep -v '^#' .env.supabase.local | xargs)
+npx supabase secrets set NOME=valor --project-ref <ref>   # rodado pelo dono do projeto
+npx supabase functions deploy --project-ref <ref>
 ```

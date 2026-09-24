@@ -23,3 +23,7 @@ supabase/.branches/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Estado local do oh-my-claudecode
+.omc/
+*.tsbuildinfo

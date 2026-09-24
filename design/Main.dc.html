@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Captação de leads</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#FAF8F4;font-family:'DM Sans',system-ui,sans-serif;color:#16140F;-webkit-font-smoothing:antialiased}
+  a{color:#8A5A2B}a:hover{color:#6B441F}
+  table{border-collapse:collapse}
+</style>
+</helmet>
+
+<div style="width: 1280px; height: 1100px; box-sizing: border-box; background: #FAF8F4; padding: 0; display: flex; flex-direction: column">
+
+  <!-- barra superior -->
+  <div style="box-sizing: border-box; padding: 24px 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(22,20,15,.10)">
+    <div style="display: flex; align-items: baseline; gap: 12px">
+      <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; letter-spacing: .01em">CRI</span>
+      <span style="font-size: 10px; font-weight: 500; letter-spacing: .18em; color: #8A8377; text-transform: uppercase">Soluções Imobiliárias</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px">
+      <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: #4A453C">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #8A8377; display: inline-block"></span>
+        Somente leitura
+      </span>
+      <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #16140F; background: transparent; border: 1px solid rgba(22,20,15,.22); border-radius: 999px; padding: 10px 18px; cursor: pointer; min-height: 44px">Destravar escrita</button>
+    </div>
+  </div>
+
+  <div style="box-sizing: border-box; padding: 40px 56px 56px; display: flex; flex-direction: column; gap: 36px">
+
+    <!-- titulo -->
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h1 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 46px; font-weight: 400; line-height: 1.05; letter-spacing: -.01em">Captação de leads</h1>
+        <p style="margin: 0; font-size: 14px; color: #8A8377; font-variant-numeric: tabular-nums">25 registros · últimos 56 dias · dados fictícios</p>
+      </div>
+      <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: #FAF8F4; background: #16140F; border: none; border-radius: 999px; padding: 13px 24px; cursor: pointer; min-height: 44px">Novo lead</button>
+    </div>
+
+    <!-- tiles -->
+    <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px">
+      <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: .12em; color: #8A8377; text-transform: uppercase">Total</span>
+        <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums">25</span>
+      </div>
+      <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: .12em; color: #3F5163; text-transform: uppercase">Novo</span>
+        <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums">7</span>
+      </div>
+      <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: .12em; color: #8A5A10; text-transform: uppercase">Em contato</span>
+        <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums">7</span>
+      </div>
+      <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: .12em; color: #23624A; text-transform: uppercase">Qualificado</span>
+        <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums">7</span>
+      </div>
+      <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: .12em; color: #8E4433; text-transform: uppercase">Perdido</span>
+        <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums">4</span>
+      </div>
+    </div>
+
+    <!-- origem x qualificacao -->
+    <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; padding: 28px 32px; display: flex; flex-direction: column; gap: 22px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px">
+        <h2 style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -.01em">Origem × qualificação</h2>
+        <div style="display: flex; align-items: center; gap: 20px">
+          <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: #4A453C"><span style="width: 18px; height: 8px; border-radius: 3px; background: #D8D2C6; display: inline-block"></span>volume</span>
+          <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: #4A453C"><span style="width: 18px; height: 8px; border-radius: 3px; background: #8A5A2B; display: inline-block"></span>taxa de qualificação</span>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <div style="display: grid; grid-template-columns: 96px minmax(0, 1fr) 120px; gap: 20px; align-items: center">
+          <span style="font-size: 13px; font-weight: 500">Site</span>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <div style="height: 10px; border-radius: 5px; background: rgba(22,20,15,.05)"><div style="width: 100%; height: 10px; border-radius: 5px; background: #D8D2C6"></div></div>
+            <div style="height: 10px; border-radius: 5px; background: rgba(22,20,15,.05)"><div style="width: 16.7%; height: 10px; border-radius: 5px; background: #8A5A2B"></div></div>
+          </div>
+          <span style="font-size: 13px; color: #4A453C; text-align: right; font-variant-numeric: tabular-nums">12 · 16,7%</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 96px minmax(0, 1fr) 120px; gap: 20px; align-items: center">
+          <span style="font-size: 13px; font-weight: 500">WhatsApp</span>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <div style="height: 10px; border-radius: 5px; background: rgba(22,20,15,.05)"><div style="width: 66.7%; height: 10px; border-radius: 5px; background: #D8D2C6"></div></div>
+            <div style="height: 10px; border-radius: 5px; background: rgba(22,20,15,.05)"><div style="width: 25%; height: 10px; border-radius: 5px; background: #8A5A2B"></div></div>
+          </div>
+          <span style="font-size: 13px; color: #4A453C; text-align: right; font-variant-numeric: tabular-nums">8 · 25,0%</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 96px minmax(0, 1fr) 120px; gap: 20px; align-items: center">
+          <span style="font-size: 13px; font-weight: 500">Indicação</span>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <div style="height: 10px; border-radius: 5px; background: rgba(22,20,15,.05)"><div style="width: 41.7%; height: 10px; border-radius: 5px; background: #D8D2C6"></div></div>
+            <div style="height: 10px; border-radius: 5px; background: rgba(22,20,15,.05)"><div style="width: 60%; height: 10px; border-radius: 5px; background: #8A5A2B"></div></div>
+          </div>
+          <span style="font-size: 13px; color: #4A453C; text-align: right; font-variant-numeric: tabular-nums">5 · 60,0%</span>
+        </div>
+      </div>
+
+      <p style="margin: 0; padding-top: 4px; border-top: 1px solid rgba(22,20,15,.08); font-size: 13px; line-height: 1.55; color: #4A453C">A origem de maior volume é a de pior aproveitamento, e a de menor volume é a melhor. Com n=25 isto é direcional, não significativo.</p>
+    </div>
+
+    <!-- filtro + tabela -->
+    <div style="display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #FAF8F4; background: #16140F; border: 1px solid #16140F; border-radius: 999px; padding: 9px 18px; cursor: pointer; min-height: 44px">Todos <span style="opacity: .6; font-variant-numeric: tabular-nums">25</span></button>
+        <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #4A453C; background: transparent; border: 1px solid rgba(22,20,15,.16); border-radius: 999px; padding: 9px 18px; cursor: pointer; min-height: 44px">Novo <span style="opacity: .6; font-variant-numeric: tabular-nums">7</span></button>
+        <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #4A453C; background: transparent; border: 1px solid rgba(22,20,15,.16); border-radius: 999px; padding: 9px 18px; cursor: pointer; min-height: 44px">Em contato <span style="opacity: .6; font-variant-numeric: tabular-nums">7</span></button>
+        <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #4A453C; background: transparent; border: 1px solid rgba(22,20,15,.16); border-radius: 999px; padding: 9px 18px; cursor: pointer; min-height: 44px">Qualificado <span style="opacity: .6; font-variant-numeric: tabular-nums">7</span></button>
+        <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #4A453C; background: transparent; border: 1px solid rgba(22,20,15,.16); border-radius: 999px; padding: 9px 18px; cursor: pointer; min-height: 44px">Perdido <span style="opacity: .6; font-variant-numeric: tabular-nums">4</span></button>
+      </div>
+
+      <div style="box-sizing: border-box; background: #FFFFFF; border: 1px solid rgba(22,20,15,.08); border-radius: 14px; overflow: hidden">
+        <table style="width: 100%; font-size: 13.5px">
+          <thead>
+            <tr>
+              <th scope="col" style="text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .1em; color: #8A8377; text-transform: uppercase; padding: 14px 24px; border-bottom: 1px solid rgba(22,20,15,.08)">Nome</th>
+              <th scope="col" style="text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .1em; color: #8A8377; text-transform: uppercase; padding: 14px 16px; border-bottom: 1px solid rgba(22,20,15,.08)">Telefone</th>
+              <th scope="col" style="text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .1em; color: #8A8377; text-transform: uppercase; padding: 14px 16px; border-bottom: 1px solid rgba(22,20,15,.08)">Imóvel de interesse</th>
+              <th scope="col" style="text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .1em; color: #8A8377; text-transform: uppercase; padding: 14px 16px; border-bottom: 1px solid rgba(22,20,15,.08)">Origem</th>
+              <th scope="col" style="text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .1em; color: #8A8377; text-transform: uppercase; padding: 14px 16px; border-bottom: 1px solid rgba(22,20,15,.08)">Status</th>
+              <th scope="col" style="text-align: right; font-size: 11px; font-weight: 600; letter-spacing: .1em; color: #8A8377; text-transform: uppercase; padding: 14px 24px; border-bottom: 1px solid rgba(22,20,15,.08)">Agente</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{linhas}}" as="linha" hint-placeholder-count="7">
+              <tr>
+                <td style="padding: 15px 24px; border-bottom: 1px solid rgba(22,20,15,.06); font-weight: 500; white-space: nowrap">{{linha.nome}}</td>
+                <td style="padding: 15px 16px; border-bottom: 1px solid rgba(22,20,15,.06); color: #8A8377; font-variant-numeric: tabular-nums; white-space: nowrap">{{linha.telefone}}</td>
+                <td style="padding: 15px 16px; border-bottom: 1px solid rgba(22,20,15,.06); color: #4A453C; max-width: 340px">{{linha.imovel}}</td>
+                <td style="padding: 15px 16px; border-bottom: 1px solid rgba(22,20,15,.06); color: #4A453C; white-space: nowrap">{{linha.origem}}</td>
+                <td style="padding: 15px 16px; border-bottom: 1px solid rgba(22,20,15,.06)">
+                  <span style="display: inline-block; font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 999px; white-space: nowrap; color: {{linha.corTexto}}; background: {{linha.corFundo}}">{{linha.status}}</span>
+                </td>
+                <td style="padding: 15px 24px; border-bottom: 1px solid rgba(22,20,15,.06); text-align: right">
+                  <button type="button" style="font-family: 'DM Sans', sans-serif; font-size: 12.5px; font-weight: 500; color: #8A5A2B; background: transparent; border: 1px solid rgba(138,90,43,.32); border-radius: 999px; padding: 8px 14px; cursor: pointer; white-space: nowrap; min-height: 44px">Gerar mensagem</button>
+                </td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const cores = {
+      'Novo':        { corTexto: '#3F5163', corFundo: 'rgba(63,81,99,.10)' },
+      'Em contato':  { corTexto: '#8A5A10', corFundo: 'rgba(138,90,16,.12)' },
+      'Qualificado': { corTexto: '#23624A', corFundo: 'rgba(35,98,74,.12)' },
+      'Perdido':     { corTexto: '#8E4433', corFundo: 'rgba(142,68,51,.12)' },
+    };
+    const dados = [
+      ['Vinícius Aragão Sodré', '(11) 9****-**34', 'Boa tarde', 'WhatsApp', 'Novo'],
+      ['Thiago Monteiro Vasques', '(11) 9****-**47', 'Apartamento garden em Moema, 3 suítes, até R$ 5 mi', 'Site', 'Novo'],
+      ['Gustavo Pinheiro Bastos', '(11) 9****-**19', 'Gostaria de receber o catálogo', 'Site', 'Novo'],
+      ['Felipe Andrade Castilho', '(11) 9****-**10', 'Apartamento Alto de Pinheiros, 4 dormitórios, até R$ 6,5 milhões', 'WhatsApp', 'Qualificado'],
+      ['Henrique Portela Maciel', '(11) 9****-**63', 'Indicação do meu sócio, procuro apartamento na região dos Jardins', 'Indicação', 'Qualificado'],
+      ['Rodrigo Sampaio Queiroz', '(11) 9****-**23', 'Vi o anúncio do apartamento no Brooklin, 3 dorms, 140 m², quero visitar', 'WhatsApp', 'Qualificado'],
+      ['Larissa Quintela Braga', '(11) 9****-**02', 'Casa no Jardim Europa, 5 suítes, piscina, orçamento aberto', 'WhatsApp', 'Em contato'],
+    ];
+    return {
+      linhas: dados.map(function (d) {
+        return { nome: d[0], telefone: d[1], imovel: d[2], origem: d[3], status: d[4],
+                 corTexto: cores[d[4]].corTexto, corFundo: cores[d[4]].corFundo };
+      }),
+    };
+  }
+}
+</script>
+</body>
+</html>
