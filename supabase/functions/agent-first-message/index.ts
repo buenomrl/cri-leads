@@ -228,6 +228,9 @@ Deno.serve(
       ? { veredito: 'erro_provedor', motivo: 'extração falhou' }
       : { veredito: 'ok' };
     let motivoGuard: MotivoBloqueio | null = null;
+    // Qual passo quebrou — a tela precisa disto para nao marcar como "falhou"
+    // um passo que nem chegou a rodar.
+    let falha: 'extracao' | 'redacao' | null = extracao.falhou ? 'extracao' : null;
 
     if (!extracao.falhou) {
       try {
@@ -239,8 +242,11 @@ Deno.serve(
             interesse: descreverInteresse(extracao.extracao),
             pergunta: PERGUNTAS[pergunta],
           }),
-          maxTokens: 500,
-          temperature: 0.7,
+          // Sem `temperature`: o Sonnet 5 rejeita o parametro com 400.
+          // Sem thinking: redacao curta, sem ferramenta — raciocinio so'
+          // gastaria o `max_tokens` e arriscaria cortar a mensagem.
+          maxTokens: 800,
+          semThinking: true,
         });
         tokensEntrada += r.tokensEntrada;
         tokensSaida += r.tokensSaida;
@@ -261,6 +267,7 @@ Deno.serve(
         const detalhe = erro instanceof ErroProvedor ? erro.message : 'falha na redação';
         console.error('redacao falhou:', detalhe);
         resultado = { veredito: 'erro_provedor', motivo: detalhe };
+        falha = 'redacao';
       }
     }
 
@@ -286,6 +293,7 @@ Deno.serve(
         extracao: extracao.extracao,
         guard: { bloqueou: motivoGuard !== null, motivo: motivoGuard },
         veredito: resultado.veredito,
+        falha,
         latencia_ms: latenciaMs,
         prompt_versao: PROMPT_VERSAO,
       },

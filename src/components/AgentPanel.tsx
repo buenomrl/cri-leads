@@ -33,39 +33,63 @@ const FALTA_LABEL: Record<FaltaSaber, string> = {
 type Estado = 'ok' | 'alerta' | 'erro' | 'pendente';
 interface Passo { ordem: string; nome: string; detalhe: string; estado: Estado; rotulo: string }
 
+const AGUARDANDO: [Estado, string] = ['pendente', 'aguardando'];
+const NAO_EXECUTADO: [Estado, string] = ['pendente', 'não executado'];
+const FALHOU: [Estado, string] = ['erro', 'falhou'];
+
+/**
+ * Estado de cada passo a partir da resposta. `falha` diz qual passo quebrou:
+ * o que vem depois dele "nao executou" — marca-lo como falho mentiria sobre
+ * onde o problema esta'.
+ */
 function passosDo(r: RespostaAgente | null, hostil: boolean): Passo[] {
   const extraiuAlgo = r !== null && Object.entries(r.extracao).some(
     ([k, v]) => k !== 'falta_saber' && k !== 'intencao' && v !== null,
   );
+
+  const extracao: [Estado, string] = !r
+    ? AGUARDANDO
+    : r.falha === 'extracao'
+      ? FALHOU
+      : extraiuAlgo
+        ? ['ok', 'ok']
+        : ['alerta', 'pouco a extrair'];
+  const saneamento: [Estado, string] = !r
+    ? AGUARDANDO
+    : r.falha === 'extracao'
+      ? NAO_EXECUTADO
+      : ['ok', hostil ? 'contido' : 'ok'];
   const redacao: [Estado, string] = !r
-    ? ['pendente', 'aguardando']
-    : r.veredito === 'ok'
-      ? ['ok', 'ok']
-      : r.veredito === 'bloqueado'
-        ? ['alerta', 'suspeito']
-        : ['erro', 'falhou'];
+    ? AGUARDANDO
+    : r.falha === 'extracao'
+      ? NAO_EXECUTADO
+      : r.falha === 'redacao'
+        ? FALHOU
+        : r.veredito === 'bloqueado'
+          ? ['alerta', 'suspeito']
+          : ['ok', 'ok'];
   const guard: [Estado, string] = !r
-    ? ['pendente', 'aguardando']
-    : r.guard.bloqueou
-      ? ['erro', 'bloqueado']
-      : r.veredito === 'ok'
-        ? ['ok', 'aprovado']
-        : ['pendente', 'não executado'];
+    ? AGUARDANDO
+    : r.falha != null // `!=` de proposito: cobre `undefined` de uma function mais antiga
+      ? NAO_EXECUTADO
+      : r.guard.bloqueou
+        ? ['erro', 'bloqueado']
+        : ['ok', 'aprovado'];
 
   return [
     {
       ordem: 'passo 1',
       nome: 'Extração',
       detalhe: 'O modelo lê o texto livre e devolve JSON de domínio fechado.',
-      estado: !r ? 'pendente' : extraiuAlgo ? 'ok' : 'alerta',
-      rotulo: !r ? 'aguardando' : extraiuAlgo ? 'ok' : 'pouco a extrair',
+      estado: extracao[0],
+      rotulo: extracao[1],
     },
     {
       ordem: 'fronteira',
       nome: 'Saneamento',
       detalhe: 'Tipo forçado, campos cortados em 80, tag e controle removidos.',
-      estado: r ? 'ok' : 'pendente',
-      rotulo: !r ? 'aguardando' : hostil ? 'contido' : 'ok',
+      estado: saneamento[0],
+      rotulo: saneamento[1],
     },
     {
       ordem: 'passo 2',

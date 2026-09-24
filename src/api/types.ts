@@ -23,6 +23,8 @@ export interface RespostaAgente {
   extracao: Extracao;
   guard: { bloqueou: boolean; motivo: MotivoBloqueio | null };
   veredito: 'ok' | 'bloqueado' | 'erro_provedor';
+  /** Qual passo quebrou quando `veredito` e' `erro_provedor`; senao `null`. */
+  falha: 'extracao' | 'redacao' | null;
   latencia_ms: number;
   prompt_versao: string;
 }

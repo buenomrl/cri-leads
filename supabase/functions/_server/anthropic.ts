@@ -26,8 +26,18 @@ export async function chamarClaude(opcoes: {
   system: string;
   mensagem: string;
   maxTokens: number;
-  /** 0 para extracao (queremos o mesmo JSON sempre), mais alto para redacao. */
-  temperature: number;
+  /**
+   * So' para modelo que aceita amostragem. ⚠️ Sonnet 5 (e a familia Opus/Fable
+   * atual) REJEITA `temperature` com 400 — por isso e' opcional e so' vai no
+   * body quando definido. A extracao no Haiku usa 0: queremos o mesmo JSON sempre.
+   */
+  temperature?: number;
+  /**
+   * Desliga o raciocinio interno. No Sonnet 5 ele vem LIGADO por padrao e os
+   * tokens dele contam dentro de `max_tokens` — numa redacao curta e sem
+   * ferramenta, isso so' gasta token e arrisca cortar a mensagem.
+   */
+  semThinking?: boolean;
 }): Promise<RespostaModelo> {
   const controle = new AbortController();
   const timer = setTimeout(() => controle.abort(), TIMEOUT_MS);
@@ -43,7 +53,8 @@ export async function chamarClaude(opcoes: {
       body: JSON.stringify({
         model: opcoes.modelo,
         max_tokens: opcoes.maxTokens,
-        temperature: opcoes.temperature,
+        ...(opcoes.temperature !== undefined && { temperature: opcoes.temperature }),
+        ...(opcoes.semThinking && { thinking: { type: 'disabled' } }),
         system: opcoes.system,
         messages: [{ role: 'user', content: opcoes.mensagem }],
       }),
@@ -59,6 +70,14 @@ export async function chamarClaude(opcoes: {
     }
 
     const dados = await resposta.json();
+
+    // So' `end_turn` e' resposta completa. `max_tokens` e' texto cortado no
+    // meio e `refusal` e' o modelo declinando — os dois passariam pelo guard
+    // parecendo mensagem valida, entao viram erro e o pipeline cai no fallback.
+    if (dados?.stop_reason !== 'end_turn') {
+      throw new ErroProvedor(`resposta incompleta (stop_reason: ${dados?.stop_reason ?? 'ausente'})`);
+    }
+
     const texto = (dados?.content ?? [])
       .filter((bloco: { type?: string }) => bloco?.type === 'text')
       .map((bloco: { text?: string }) => bloco.text ?? '')

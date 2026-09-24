@@ -179,6 +179,7 @@ export const apiLocal: Api = {
       extracao,
       guard: { bloqueou: !guard.ok, motivo },
       veredito: guard.ok ? 'ok' : 'bloqueado',
+      falha: null,
       latencia_ms: Date.now() - inicio,
       prompt_versao: `${PROMPT_VERSAO} (simulação local)`,
     };
