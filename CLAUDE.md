@@ -109,7 +109,12 @@ nunca enviada. O alvo real de um prompt injection aqui é o humano que copia e c
   `--profile`: essa flag escolhe o endpoint da API, não a conta (`Unsupported Config Type`).
 - ⚠️ Projeto free **pausa após ~7 dias** sem atividade e o link publicado é entregável duro. Um cron
   externo grátis pinga a rota de listagem uma vez por dia.
-- **Vercel** para o front. **GitHub** público `buenomrl/cri-leads`.
+- **Vercel** para o front: **https://cri-leads.vercel.app**, projeto `cri-leads` no time
+  `buenomrls-projects`, com deploy automático a cada push no `main`. Única env:
+  `VITE_API_BASE_URL`. Esse domínio precisa estar no secret `ALLOWED_ORIGINS` do Supabase, senão
+  o navegador bloqueia por CORS. Headers de segurança (CSP etc.) em `vercel.json`: a CSP lista o
+  domínio das functions em `connect-src`, então trocar de projeto Supabase exige atualizá-la.
+  **GitHub** público `buenomrl/cri-leads`.
 - `react` pinado em **19.2.3**; TypeScript `~6.0.3` com `erasableSyntaxOnly`.
 
 ## Comandos
