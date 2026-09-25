@@ -40,6 +40,8 @@ Quando uma regra nasce em `_server/` (que depende do Deno e o Vitest não alcan�
 sai para uma função pura em `_shared/` e `_server/` só chama. Foi assim com a chave de demo, a
 resposta do modelo e o CORS.
 
+`npm run eval:agente` roda a **avaliação do agente** na API publicada (25 leads + bateria de ataques de injeção, ~36 gerações, poucos centavos) e grava `docs/avaliacao-agente.md`. Rodar depois de mudar prompt ou modelo e comparar com o relatório anterior.
+
 `npm run smoke` verifica a **API publicada** (401/400/405, telefone mascarado, CORS, escrita sem
 efeito). `npm run smoke -- --agente` também manda a entrada hostil ao agente (gasta menos de 1 centavo).
 Fica fora do `npm test` porque precisa de rede e da chave (lida de `supabase/functions/.env`, nunca
