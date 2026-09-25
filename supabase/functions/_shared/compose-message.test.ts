@@ -127,6 +127,28 @@ describe('sanitizarExtracao', () => {
     expect(sanitizarExtracao(completa)).toEqual(completa);
   });
 
+  // Achado pela avaliacao: o modelo preenchia o campo e ainda o listava como
+  // faltando, e o agente perguntava ao cliente o que ele tinha acabado de dizer.
+  it('o que foi extraido nunca fica em falta_saber', () => {
+    const r = sanitizarExtracao({
+      ...completa,
+      sinal_orcamento: 'orçamento aberto',
+      falta_saber: ['bairro', 'orcamento', 'dormitorios', 'prazo'],
+    });
+    expect(r.falta_saber).toEqual(['prazo']);
+  });
+
+  it('o que NAO foi extraido continua em falta_saber', () => {
+    const r = sanitizarExtracao({
+      ...completa,
+      bairro: null,
+      sinal_orcamento: '   ',
+      dormitorios: 0,
+      falta_saber: ['bairro', 'orcamento', 'dormitorios'],
+    });
+    expect(r.falta_saber).toEqual(['bairro', 'orcamento', 'dormitorios']);
+  });
+
   it('devolve extracao vazia para qualquer coisa que nao seja objeto', () => {
     for (const lixo of [null, 'texto', 42, ['a'], undefined]) {
       expect(sanitizarExtracao(lixo)).toEqual(extracaoVazia());
@@ -160,6 +182,8 @@ describe('sanitizarExtracao', () => {
   it('descarta intencao e falta_saber fora do dominio', () => {
     const r = sanitizarExtracao({
       ...completa,
+      // sem orcamento extraido, para "orcamento" poder faltar (regra de coerencia)
+      sinal_orcamento: null,
       intencao: 'permuta_por_jatinho',
       falta_saber: ['orcamento', 'cpf_do_lead', 'orcamento'],
     });

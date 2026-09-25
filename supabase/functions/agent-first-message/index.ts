@@ -46,7 +46,7 @@ import {
   PROMPT_VERSAO,
   SYSTEM_EXTRACAO,
   SYSTEM_REDACAO,
-} from '../_shared/prompt-first-message.v1.ts';
+} from '../_shared/prompt-first-message.v2.ts';
 
 import { chamarClaude, ErroProvedor } from '../_server/anthropic.ts';
 import { exigirChaveDemo } from '../_server/demo-key.ts';

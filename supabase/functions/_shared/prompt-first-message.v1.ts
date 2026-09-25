@@ -29,7 +29,8 @@ export const PROMPT_VERSAO = 'first-message.v1';
 export const MODELO_EXTRACAO = 'claude-haiku-4-5-20251001';
 export const MODELO_REDACAO = 'claude-sonnet-5';
 
-const TAG = 'dados_do_lead';
+/** Exportada para a v2 montar o mesmo delimitador sem repetir o literal. */
+export const TAG = 'dados_do_lead';
 
 /**
  * Prepara o texto do lead para entrar no prompt.

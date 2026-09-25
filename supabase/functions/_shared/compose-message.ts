@@ -208,15 +208,27 @@ export function sanitizarExtracao(bruto: unknown): Extracao {
     ? (e.intencao as Extracao['intencao'])
     : 'indefinido';
 
+  const bairro = campoCurto(e.bairro);
+  const sinalOrcamento = campoCurto(e.sinal_orcamento);
+
+  // Regra de COERENCIA, deterministica: o que foi extraido nao falta. Sem ela,
+  // o modelo pode preencher o campo e ainda assim lista-lo em falta_saber — e o
+  // agente pergunta ao cliente o que ele acabou de dizer. Achado pela avaliacao
+  // (docs/avaliacao-agente-v1.md); vale mesmo que o prompt falhe de novo.
+  const jaSabido: Partial<Record<FaltaSaber, boolean>> = {
+    bairro: bairro !== null,
+    orcamento: sinalOrcamento !== null,
+    dormitorios: dormitorios !== null,
+  };
   const falta = Array.isArray(e.falta_saber)
-    ? (e.falta_saber.filter((f) => FALTAS.includes(f as FaltaSaber)) as FaltaSaber[])
+    ? (e.falta_saber.filter((f) => FALTAS.includes(f as FaltaSaber) && !jaSabido[f as FaltaSaber]) as FaltaSaber[])
     : [];
 
   return {
     tipo_imovel: campoCurto(e.tipo_imovel),
-    bairro: campoCurto(e.bairro),
+    bairro,
     dormitorios,
-    sinal_orcamento: campoCurto(e.sinal_orcamento),
+    sinal_orcamento: sinalOrcamento,
     intencao,
     falta_saber: [...new Set(falta)],
   };

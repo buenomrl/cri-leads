@@ -24,7 +24,7 @@ import {
 import type { Lead, Status } from '@shared/domain.ts';
 import { verificarMensagem, type MotivoBloqueio } from '@shared/output-guard.ts';
 import { mascararTelefone } from '@shared/phone.ts';
-import { PROMPT_VERSAO } from '@shared/prompt-first-message.v1.ts';
+import { PROMPT_VERSAO } from '@shared/prompt-first-message.v2.ts';
 import { validarMudancaStatus, validarNovoLead, type NovoLead } from '@shared/validation.ts';
 
 import { leadsIniciais } from './demo-local.fixture.ts';
