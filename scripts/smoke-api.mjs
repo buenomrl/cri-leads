@@ -9,7 +9,7 @@
 // MESMO status que o lead ja tem.
 //
 //   npm run smoke                 # checagens gratuitas
-//   npm run smoke -- --agente     # + agente com entrada hostil (~1 centavo de credito)
+//   npm run smoke -- --agente     # + agente com entrada hostil (menos de 1 centavo de credito)
 //
 // Variaveis opcionais:
 //   API_BASE_URL       padrao: o projeto publicado

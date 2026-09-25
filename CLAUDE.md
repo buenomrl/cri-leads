@@ -41,7 +41,7 @@ sai para uma função pura em `_shared/` e `_server/` só chama. Foi assim com a
 resposta do modelo e o CORS.
 
 `npm run smoke` verifica a **API publicada** (401/400/405, telefone mascarado, CORS, escrita sem
-efeito). `npm run smoke -- --agente` também manda a entrada hostil ao agente (gasta ~1 centavo).
+efeito). `npm run smoke -- --agente` também manda a entrada hostil ao agente (gasta menos de 1 centavo).
 Fica fora do `npm test` porque precisa de rede e da chave (lida de `supabase/functions/.env`, nunca
 impressa). Rodar depois de todo deploy das functions.
 

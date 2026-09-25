@@ -82,7 +82,7 @@ Três cortes sustentam o padrão:
 
 ## Conferência cruzada
 
-Os mesmos números são calculados de forma independente em TypeScript por `resumoDeLeads`
+Os mesmos números são calculados em paralelo, em TypeScript, por `resumoDeLeads`
 (`supabase/functions/_shared/analytics.ts`), que alimenta a tela e é coberto pelos testes do
 Vitest. A regra de "detalhado" existe nos dois lados: `imovel_interesse ~ '[0-9]'` no SQL e
 `temDetalhe` no TypeScript. Em 2026-09-24 os dois lados deram resultados idênticos: 16,7 / 25,0 /
