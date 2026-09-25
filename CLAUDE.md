@@ -83,6 +83,9 @@ pega a inversão, e aí o controle custa mais do que rende.
 - `supabase/functions/leads/` e `.../agent-first-message/` — os 2 endpoints.
 - `analytics/` — as consultas da Etapa 2 como arquivos, com resultado real colado e leitura.
 - `design/` — protótipo HTML aprovado antes do React.
+- Documentação da entrega em **dois formatos com o mesmo conteúdo**: `DOCUMENTACAO.md` (GitHub) e
+  `public/docs/index.html` (publicada em `/docs/`, HTML estático sem JavaScript por causa da CSP).
+  ⚠️ Mudou um, mude o outro. `README.md` e `SECURITY.md` completam.
 
 ⚠️ O prefixo `_` em `_shared` e `_server` é **load-bearing**: é o que faz o CLI do Supabase não tentar
 publicar essas pastas como functions.
