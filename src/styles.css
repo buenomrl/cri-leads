@@ -374,6 +374,7 @@ dialog {
   color: var(--tinta-3);
 }
 .rodape a { color: var(--acento); text-decoration: none; }
+.rodape-links { display: flex; gap: 18px; }
 .rodape a:hover { text-decoration: underline; }
 
 /* ---------- responsivo ---------- */

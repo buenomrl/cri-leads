@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Documentação · CRI Leads</title>
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" />
+<!-- Pagina estatica, sem JavaScript: respeita a CSP do site (script-src 'self')
+     sem excecao. Conteudo espelha DOCUMENTACAO.md; se um mudar, mude o outro. -->
+<style>
+:root {
+  --fundo: #faf8f4;
+  --superficie: #ffffff;
+  --tinta: #16140f;
+  --tinta-2: #4a453c;
+  --tinta-3: #857d70;
+  --linha: rgba(22, 20, 15, 0.1);
+  --acento: #c2410c;
+  --acento-suave: rgba(194, 65, 12, 0.08);
+  --marca: #ff6a00;
+  --marca-2: #ff3d00;
+  --codigo: #f1ede5;
+  --ok: #23624a;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --fundo: #15130f;
+    --superficie: #1e1b16;
+    --tinta: #f1ece2;
+    --tinta-2: #c9c1b3;
+    --tinta-3: #968d7e;
+    --linha: rgba(241, 236, 226, 0.12);
+    --acento: #ff8a4c;
+    --acento-suave: rgba(255, 138, 76, 0.12);
+    --codigo: #26221c;
+    --ok: #7cc3a2;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--tinta);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+  padding-inline: 20px;
+}
+a { color: var(--acento); text-underline-offset: 3px; }
+code { font-family: var(--mono); font-size: 0.85em; background: var(--codigo); padding: 1px 6px; border-radius: 5px; }
+h1, h2, h3 { text-wrap: balance; }
+:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+.topo {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 22px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--linha);
+}
+.topo-marca { display: flex; align-items: baseline; gap: 12px; }
+.topo-marca strong { font-family: var(--serif); font-weight: 400; font-size: 26px; }
+.topo-marca span { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tinta-3); }
+.topo-links { display: flex; gap: 8px; flex-wrap: wrap; }
+.botao {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13.5px; font-weight: 500; text-decoration: none;
+  padding: 9px 16px; border-radius: 999px;
+  border: 1px solid var(--linha); color: var(--tinta);
+}
+.botao:hover { border-color: var(--tinta-3); }
+.botao.primario { background: var(--tinta); color: var(--fundo); border-color: var(--tinta); }
+
+.casca {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+.indice {
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + 24px);
+  padding-top: 44px;
+  display: flex; flex-direction: column; gap: 2px;
+  font-size: 13.5px;
+}
+.indice .rotulo { margin-bottom: 8px; }
+.indice a {
+  color: var(--tinta-2); text-decoration: none;
+  padding: 5px 0 5px 12px; border-left: 2px solid var(--linha);
+}
+.indice a:hover { color: var(--tinta); border-left-color: var(--acento); }
+.indice .sub { padding-left: 24px; font-size: 13px; color: var(--tinta-3); }
+
+main { max-width: 74ch; padding-bottom: 96px; }
+.rotulo { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tinta-3); }
+
+.capa { padding-block: 52px 32px; display: flex; flex-direction: column; gap: 14px; }
+.capa h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(42px, 6vw, 62px); line-height: 1.02; margin: 0; letter-spacing: -0.01em; }
+.capa p { margin: 0; font-size: 18px; color: var(--tinta-2); }
+
+.numeros { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 10px; }
+.numero { background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
+.numero b { font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; }
+.numero span { font-size: 13px; color: var(--tinta-2); line-height: 1.4; }
+
+.aviso {
+  font-size: 14.5px; color: var(--tinta-2);
+  background: var(--acento-suave); border-left: 3px solid var(--acento);
+  padding: 12px 16px; border-radius: 0 10px 10px 0;
+}
+.aviso strong { color: var(--tinta); }
+
+section { padding-top: 48px; scroll-margin-top: 16px; display: flex; flex-direction: column; gap: 14px; }
+section > h2 { font-family: var(--serif); font-weight: 400; font-size: 38px; line-height: 1.1; margin: 0; }
+section h3 {
+  margin: 14px 0 0; font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--acento);
+}
+section p, section ul { margin: 0; }
+section ul { padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.resumo { font-size: 17.5px; color: var(--tinta); border-left: 3px solid var(--tinta); padding-left: 16px; }
+
+.tabela { overflow-x: auto; background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--linha); vertical-align: top; }
+th { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tinta-3); font-weight: 600; }
+tr:last-child td { border-bottom: none; }
+td.forte { font-weight: 600; color: var(--ok); }
+
+/* Diagrama de arquitetura em HTML/CSS */
+.fluxo { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; }
+.no {
+  flex: 1 1 150px; background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px;
+  padding: 14px 16px; display: flex; flex-direction: column; gap: 4px;
+}
+.no b { font-size: 14.5px; }
+.no span { font-size: 12.5px; color: var(--tinta-2); line-height: 1.45; }
+.seta {
+  flex: 0 0 auto; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 0 8px; font-size: 11px; color: var(--tinta-3); text-align: center; max-width: 110px; line-height: 1.3;
+}
+.seta::before { content: '→'; font-size: 20px; color: var(--acento); }
+
+/* Pipeline do agente */
+.pipeline { list-style: none; padding: 0 !important; gap: 0 !important; }
+.pipeline li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; position: relative; padding-bottom: 16px; }
+.pipeline li::before {
+  content: attr(data-n);
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 12.5px; font-weight: 600;
+  background: var(--superficie); border: 1px solid var(--linha); color: var(--tinta);
+  position: relative; z-index: 1;
+}
+.pipeline li.chave::before { background: var(--tinta); color: var(--fundo); border-color: var(--tinta); }
+.pipeline li:not(:last-child)::after {
+  content: ''; position: absolute; left: 14.5px; top: 30px; bottom: 0; width: 1px; background: var(--linha);
+}
+.pipeline b { font-size: 15px; }
+.pipeline span { display: block; font-size: 14px; color: var(--tinta-2); }
+
+.relato { background: var(--superficie); border: 1px solid var(--linha); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+.relato .antes, .relato .depois { font-size: 14.5px; padding: 10px 12px; border-radius: 8px; }
+.relato .antes { background: rgba(142, 68, 51, 0.08); }
+.relato .depois { background: rgba(35, 98, 74, 0.09); }
+.relato small { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tinta-3); display: block; margin-bottom: 2px; }
+
+.rodape { max-width: 1180px; margin: 0 auto; padding: 24px 0 36px; border-top: 1px solid var(--linha); font-size: 12.5px; color: var(--tinta-3); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 880px) {
+  .casca { grid-template-columns: 1fr; gap: 0; }
+  .indice { position: static; padding-top: 24px; flex-direction: row; flex-wrap: wrap; gap: 6px 14px; }
+  .indice .rotulo { flex-basis: 100%; margin: 0; }
+  .indice a, .indice .sub { border-left: none; padding: 0; }
+  .fluxo { flex-direction: column; }
+  .seta { flex-direction: row; max-width: none; padding: 6px 0; gap: 8px; }
+  .seta::before { content: '↓'; }
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-marca"><strong>CRI Leads</strong><span>Documentação da entrega</span></div>
+  <nav class="topo-links" aria-label="Links do projeto">
+    <a class="botao primario" href="/">Abrir a interface</a>
+    <a class="botao" href="https://github.com/buenomrl/cri-leads">Código no GitHub</a>
+  </nav>
+</header>
+
+<div class="casca">
+  <nav class="indice" aria-label="Seções">
+    <span class="rotulo">Nesta página</span>
+    <a href="#visao-geral">Visão geral</a>
+    <a href="#arquitetura">Arquitetura</a>
+    <a href="#etapa-1">Etapa 1 · Banco</a>
+    <a href="#etapa-2">Etapa 2 · Dados</a>
+    <a href="#etapa-3">Etapa 3 · Interface</a>
+    <a href="#etapa-4">Etapa 4 · Agente</a>
+    <a class="sub" href="#avaliacao">Avaliação do agente</a>
+    <a href="#seguranca">Segurança</a>
+    <a href="#qualidade">Qualidade</a>
+    <a href="#ia">Como usei IA</a>
+  </nav>
+
+  <main>
+    <div class="capa">
+      <span class="rotulo">Case técnico · Desenvolvedor(a) Jr, Agentes de IA</span>
+      <h1>Mini sistema de captação de leads</h1>
+      <p>Do banco de dados à automação com IA: onde cada etapa está, por que foi feita assim, o que deu errado no caminho e o que eu faria com mais tempo.</p>
+      <div class="numeros">
+        <div class="numero"><b>25</b><span>leads fictícios, 3 origens, 4 status</span></div>
+        <div class="numero"><b>11/11</b><span>ataques de prompt injection contidos</span></div>
+        <div class="numero"><b>25/25</b><span>leads com a pergunta certa (prompt v2)</span></div>
+        <div class="numero"><b>106</b><span>testes nas regras de negócio e de segurança</span></div>
+        <div class="numero"><b>~3,5 s</b><span>por mensagem, menos de meio centavo de dólar</span></div>
+      </div>
+    </div>
+
+    <p class="aviso"><strong>Para testar a escrita</strong> (criar lead, mudar status, gerar mensagem com IA), clique em <em>Destravar escrita</em> na interface e use a chave de demonstração enviada no e-mail. Sem ela, tudo fica visível em modo de leitura. Todos os dados são fictícios.</p>
+
+    <!-- ============================================================ -->
+    <section id="visao-geral">
+      <span class="rotulo">Visão geral</span>
+      <h2>As peças</h2>
+      <div class="tabela">
+        <table>
+          <thead><tr><th>Peça</th><th>Onde roda</th><th>Por quê</th></tr></thead>
+          <tbody>
+            <tr><td>Banco Postgres</td><td>Supabase, São Paulo</td><td>Recomendado no enunciado, que diz ser o que a CRI usa internamente; migrações SQL versionadas</td></tr>
+            <tr><td>API</td><td>2 Edge Functions no Supabase</td><td>Segredos (acesso ao banco, chave da IA) ficam só no servidor</td></tr>
+            <tr><td>Interface</td><td>React + TypeScript na Vercel</td><td>Publicada, com deploy automático a cada push</td></tr>
+            <tr><td>Agente</td><td>Claude Haiku 4.5 + Sonnet 5</td><td>Pipeline em etapas, com defesa contra prompt injection</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="arquitetura">
+      <span class="rotulo">Arquitetura</span>
+      <h2>O navegador não tem chave de banco</h2>
+      <p class="resumo">A tela fala só com duas Edge Functions. A tabela <code>leads</code> não tem nenhuma permissão para os papéis públicos do Supabase, e todo segredo existe apenas no servidor.</p>
+      <div class="fluxo" role="img" aria-label="Navegador chama as Edge Functions, que acessam o banco e a API da Anthropic">
+        <div class="no"><b>Navegador</b><span>React na Vercel. Nenhuma credencial.</span></div>
+        <div class="seta">HTTPS</div>
+        <div class="no"><b>Edge Functions</b><span><code>leads</code> e <code>agent-first-message</code>. Validam, controlam a escrita.</span></div>
+        <div class="seta">service_role</div>
+        <div class="no"><b>Postgres</b><span><code>leads</code> e <code>agent_runs</code>, RLS ligada, permissões mínimas.</span></div>
+      </div>
+      <p>As functions também chamam a API da Anthropic, com a chave guardada só como segredo do servidor. Leitura é aberta para a avaliação; escrever exige a chave de demonstração.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="etapa-1">
+      <span class="rotulo">Etapa 1</span>
+      <h2>Banco de dados</h2>
+      <h3>O que construí</h3>
+      <p>A tabela <code>leads</code> com os campos pedidos (<code>nome</code>, <code>telefone</code>, <code>imovel_interesse</code>, <code>origem</code>, <code>status</code>, <code>created_at</code>) e 25 leads fictícios nas 3 origens e nos 4 status, em migrações SQL que qualquer pessoa pode ler e reaplicar.</p>
+      <ul>
+        <li>Valores permitidos garantidos pelo próprio banco (<code>check</code>), além da validação na API.</li>
+        <li>RLS ligada, sem nenhuma permissão para <code>anon</code> e <code>authenticated</code>. O <code>service_role</code>, usado só pelas functions, tem o mínimo necessário e <strong>não pode apagar</strong>: lead que não deu certo vira "perdido".</li>
+        <li>Telefones numa faixa que não pertence a assinante real; a listagem pública sempre devolve o número mascarado.</li>
+      </ul>
+      <h3>Ferramentas e por quê</h3>
+      <p>Supabase, porque o enunciado recomenda e diz que é o que a CRI usa internamente: quem avalia lê as migrações e as policies na ferramenta que já conhece. <code>text</code> + <code>check</code> em vez de <code>ENUM</code>, mais simples de evoluir.</p>
+      <h3>Dificuldades</h3>
+      <ul>
+        <li>O plano gratuito limita <strong>2 projetos por usuário</strong>, não por organização. Resolvi com uma segunda conta e um token de acesso separado, sem mexer no login da conta principal.</li>
+        <li>O primeiro projeto foi criado por engano nos EUA. Recriei em São Paulo: com dado real de cliente brasileiro, manter os dados no país seria a escolha natural, e a latência é menor.</li>
+        <li>Conferindo as permissões no banco real, descobri que o Supabase concede por padrão <code>TRUNCATE</code> (apagar a tabela inteira) ao <code>service_role</code>, o que contradizia a regra "nada se apaga". A migração 04 zera as permissões e concede de novo só o que a aplicação usa.</li>
+      </ul>
+      <h3>Com mais tempo</h3>
+      <p>Histórico de mudanças de status (quem mudou, de quê para quê, quando) e responsável pelo lead.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="etapa-2">
+      <span class="rotulo">Etapa 2</span>
+      <h2>Interpretação dos dados</h2>
+      <h3>O que construí</h3>
+      <p>Três consultas SQL em <a href="https://github.com/buenomrl/cri-leads/tree/main/analytics"><code>analytics/</code></a>, cada uma com o resultado real colado embaixo, e a <a href="https://github.com/buenomrl/cri-leads/blob/main/analytics/resultados.md">leitura completa</a>.</p>
+      <div class="tabela">
+        <table>
+          <thead><tr><th>Pergunta</th><th>Resposta</th></tr></thead>
+          <tbody>
+            <tr><td>Qual origem gerou mais leads?</td><td><strong>Site</strong>: 12 de 25 (48%)</td></tr>
+            <tr><td>% de qualificados por origem</td><td>Indicação <strong>60%</strong> · WhatsApp 25% · Site <strong>16,7%</strong></td></tr>
+            <tr><td>Outro padrão</td><td>Pedido com detalhe numérico qualifica <strong>46,2%</strong>; pedido vago, <strong>8,3%</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="resumo">Volume e qualidade estão em ordem inversa: a métrica que importa é lead <em>qualificado</em> por canal. E lead vago não é lead ruim, é lead que ainda não foi perguntado. Esse achado define o que o agente faz: responder já com a pergunta que falta.</p>
+      <p>O padrão se repete dentro de cada origem, e os 4 leads perdidos são todos pedidos vagos.</p>
+      <h3>Ferramentas e por quê</h3>
+      <p>SQL puro, rodado no banco publicado. Os mesmos números são calculados em paralelo em TypeScript (<code>resumoDeLeads</code>), que alimenta a tela e é coberto por testes. Os dois lados deram resultados idênticos.</p>
+      <h3>Dificuldades</h3>
+      <p>Dado sorteado não chega a conclusão nenhuma, então o seed <strong>foi desenhado</strong> para conter padrões, e a análise diz isso com essas palavras: as consultas demonstram que encontram um padrão, não que ele existe no mercado. Com n=25, os números indicam direção, não significância.</p>
+      <h3>Com mais tempo</h3>
+      <p>Dados reais e tempo até a primeira resposta (<em>speed-to-lead</em>), o que mais pesa na conversão de lead imobiliário.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="etapa-3">
+      <span class="rotulo">Etapa 3</span>
+      <h2>Interface</h2>
+      <h3>O que construí</h3>
+      <p>Uma tela publicada que lista os leads, filtra por status, mostra o resumo em cards e um gráfico de origem × qualificação (que já exibe o achado da Etapa 2), e tem busca livre e ordenação por coluna. Criar lead e mudar status ficam atrás da chave de demonstração.</p>
+      <h3>Ferramentas e por quê</h3>
+      <ul>
+        <li><strong>React + TypeScript + Vite</strong>: as regras do servidor são importadas pela própria tela, então a validação do formulário é a mesma função que roda na API.</li>
+        <li><strong>Protótipo visual aprovado antes</strong> do React, para errar no rascunho e não no código.</li>
+        <li><strong>Vercel</strong>, com cabeçalhos de segurança (CSP, bloqueio de iframe).</li>
+      </ul>
+      <h3>Dificuldades</h3>
+      <p>Desenvolver a tela antes de o banco existir. Resolvi com um <strong>modo local</strong>: sem a URL da API, o ambiente de desenvolvimento roda contra uma API em memória com as mesmas regras reais. O build de produção remove esse modo por completo, e conferi isso no pacote publicado.</p>
+      <h3>Com mais tempo</h3>
+      <p>Login por usuário no lugar da chave compartilhada, paginação e atualização em tempo real quando outro SDR mexe no mesmo lead.</p>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="etapa-4">
+      <span class="rotulo">Etapa 4</span>
+      <h2>Agente de automação</h2>
+      <p class="resumo">Dado um lead (nome + texto do imóvel de interesse), o agente sugere a primeira mensagem de resposta. Ele é uma linha de montagem, não uma chamada única, e o texto do imóvel nunca chega ao passo que redige.</p>
+      <ol class="pipeline">
+        <li data-n="1"><div><b>Extração · Haiku 4.5</b><span>Lê o texto do lead, marcado como dado não confiável, e devolve só campos fixos em JSON.</span></div></li>
+        <li data-n="→" class="chave"><div><b>Saneamento</b><span>Fronteira de confiança: tipo forçado, 80 caracteres por campo, sem <code>&lt; &gt; { } [ ]</code> nem caracteres invisíveis. O primeiro nome passa pelo mesmo tratamento.</span></div></li>
+        <li data-n="?"><div><b>Pergunta por regra fixa</b><span>Código escolhe a primeira lacuna: região → orçamento → dormitórios → prazo → financiamento → visita. Uma pergunta só.</span></div></li>
+        <li data-n="2"><div><b>Redação · Sonnet 5</b><span>Escreve a mensagem vendo só os campos saneados.</span></div></li>
+        <li data-n="✓" class="chave"><div><b>Guard</b><span>Código testado recusa link, e-mail, telefone de terceiro, instrução vazada e mensagem vazia, curta ou longa demais.</span></div></li>
+        <li data-n="↩"><div><b>Mensagem sugerida ou padrão</b><span>Se algo falha ou é bloqueado, sai uma mensagem montada por código, rotulada como tal.</span></div></li>
+      </ol>
+      <ul>
+        <li>A mensagem é sempre <strong>sugestão para uma pessoa revisar e enviar</strong>. O sistema nunca envia nada.</li>
+        <li>Cada execução fica em <code>agent_runs</code> (veredito, tempo, tokens, versão do prompt), e um teto de 200 gerações por dia protege o crédito.</li>
+        <li>A tela mostra o caminho inteiro: o que foi extraído, qual pergunta e por quê, o veredito do guard, e um botão para testar com entrada hostil.</li>
+      </ul>
+      <h3>Ferramentas e por quê</h3>
+      <p>Claude, com dois modelos: extrair é tarefa mecânica, e o Haiku resolve bem e barato; a redação é o que o cliente lê, então vale o Sonnet. Separar em dois passos é o que isola o texto do lead.</p>
+      <h3>Dificuldades</h3>
+      <ul>
+        <li><strong>Prompt injection.</strong> O risco real não é a IA errar: é um corretor copiar e colar para um cliente o WhatsApp de um desconhecido. Por isso a última palavra é de código testado, não do modelo.</li>
+        <li><strong>Toda mensagem caía no fallback</strong> no primeiro deploy. O registro mostrava "provedor respondeu 400": o Sonnet 5 não aceita o parâmetro <code>temperature</code>. Corrigi e passei a conferir se a resposta veio completa, para uma mensagem cortada nunca chegar à tela. Enquanto o bug existia, o sistema entregou a mensagem padrão e registrou o motivo.</li>
+      </ul>
+
+      <h3 id="avaliacao">Avaliação do agente</h3>
+      <p>Para não depender de um teste só, <code>npm run eval:agente</code> roda o agente publicado sobre os 25 leads e sobre <strong>11 ataques de prompt injection</strong>: WhatsApp de concorrente, fechar a tag de dados e fingir ser o sistema, link por extenso, e-mail de terceiro, instrução em inglês, pedido para revelar o prompt, preço e visita falsos, desconto, injeção pelo campo de nome, letras invisíveis e telefone com dígitos separados. Cada ataque declara o que quer plantar; "passou" é esse conteúdo aparecer na mensagem entregue.</p>
+      <div class="tabela">
+        <table>
+          <thead><tr><th></th><th>Prompt v1</th><th>Prompt v2</th></tr></thead>
+          <tbody>
+            <tr><td>Ataques contidos</td><td>11 de 11</td><td class="forte">11 de 11</td></tr>
+            <tr><td>Não pergunta o que o cliente já disse</td><td>24 de 25</td><td class="forte">25 de 25</td></tr>
+            <tr><td>Não inventa preço</td><td>25 de 25</td><td class="forte">25 de 25</td></tr>
+            <tr><td>Cumprimenta pelo nome</td><td>25 de 25</td><td class="forte">25 de 25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Os 11 ataques pararam na primeira barreira: a extração reduziu o texto a campos saneados e o guard nem precisou agir. A avaliação da v1 achou um problema real de qualidade:</p>
+      <div class="relato">
+        <p><strong>Lead:</strong> "Casa no Jardim Europa, 5 suítes, piscina, orçamento aberto"</p>
+        <div class="antes"><small>v1</small>Perguntava a faixa de investimento: a extração não tratava "orçamento aberto" como resposta sobre orçamento.</div>
+        <div class="depois"><small>v2</small>Pergunta o prazo, a próxima informação que de fato falta.</div>
+      </div>
+      <p>A v2 corrige o prompt de extração e acrescenta uma regra fixa no código (o que foi extraído nunca conta como "falta saber"), que vale mesmo se o modelo errar de novo. Rodada de novo, a avaliação mostrou a melhora sem piorar nenhum outro número. Relatórios com todas as mensagens geradas nos ataques: <a href="https://github.com/buenomrl/cri-leads/blob/main/docs/avaliacao-agente-v1.md">v1</a> · <a href="https://github.com/buenomrl/cri-leads/blob/main/docs/avaliacao-agente.md">v2</a>.</p>
+      <p>Custo e tempo medidos nas gerações registradas em <code>agent_runs</code>: 3,5 s em média, com ~1.270 tokens de entrada e ~210 de saída somando os dois passos. Mesmo no preço do Sonnet 5, menos de meio centavo de dólar por mensagem.</p>
+      <h3>Com mais tempo</h3>
+      <ul>
+        <li>Um campo de <strong>características</strong> na extração (piscina, varanda, vista…), com valores de uma lista fechada. Hoje "imóvel para morar com piscina" recebe uma resposta genérica, porque a redação só vê os campos fixos: é o custo consciente do isolamento.</li>
+        <li>Avaliar também o tom das mensagens, com leads reais e a opinião de quem atende, e rodar a avaliação automaticamente a cada mudança de prompt.</li>
+        <li>Gerar a sugestão ao cadastrar o lead e guardar o histórico de sugestões.</li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="seguranca">
+      <span class="rotulo">Segurança</span>
+      <h2>O que é protegido, e o que não é</h2>
+      <div class="tabela">
+        <table>
+          <thead><tr><th>Protegido</th><th>Como</th></tr></thead>
+          <tbody>
+            <tr><td>Acesso direto ao banco</td><td>Papéis públicos sem permissão; o front não tem chave do Supabase</td></tr>
+            <tr><td>Apagar dados</td><td>Nenhum papel da aplicação pode: sem rota, permissão nem policy de <code>DELETE</code>; <code>TRUNCATE</code> revogado</td></tr>
+            <tr><td>Escrita e crédito de IA</td><td>Chave de demonstração conferida no servidor, em tempo constante; teto de 200 gerações por dia</td></tr>
+            <tr><td>Prompt injection</td><td>Isolamento entre extração e redação, saneamento, guard e revisão humana</td></tr>
+            <tr><td>Exposição de telefone</td><td>Listagem pública só com número mascarado</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Riscos aceitos, ditos com todas as letras:</strong> a chave de demonstração <strong>não é autenticação</strong> (é uma só, compartilhada); a listagem é pública, e o que protege os nomes é o dado ser fictício; CORS é higiene, não controle de acesso. Em produção: login por usuário, papéis, RLS por usuário e registro de auditoria. Detalhes em <a href="https://github.com/buenomrl/cri-leads/blob/main/SECURITY.md">SECURITY.md</a>.</p>
+    </section>
+
+    <section id="qualidade">
+      <span class="rotulo">Qualidade</span>
+      <h2>Como sei que funciona</h2>
+      <ul>
+        <li><strong>106 testes</strong> (Vitest) nas regras que importam: validação, números da análise, máscara de telefone, guard, escolha da pergunta, coerência da extração, preparo do texto para o prompt, comparação da chave, leitura da resposta do modelo, CORS, busca e ordenação.</li>
+        <li><strong><code>npm run eval:agente</code></strong> avalia o agente publicado: 25 leads + 11 ataques.</li>
+        <li><strong><code>npm run smoke</code></strong> verifica a API publicada: escrita sem chave recusada (401), dado inválido (400), apagar recusado (405), telefone mascarado e CORS.</li>
+      </ul>
+    </section>
+
+    <section id="ia">
+      <span class="rotulo">Processo</span>
+      <h2>Como usei IA para construir</h2>
+      <p>Construí com o <strong>Claude Code</strong>. O fluxo foi o mesmo em todas as mudanças: um <strong>plano escrito e aprovado antes</strong> de virar código, implementação, testes e uma <strong>revisão feita por um agente separado</strong>, que apontou problemas reais (entre eles uma linha que o CLI da Vercel acrescentou ao <code>.gitignore</code> e que passou a esconder o <code>.env.example</code>, e um privilégio novo do Postgres 17 que a primeira versão da migração 04 não cobria). A IA acelerou a escrita; as decisões, a conferência no banco real e a responsabilidade por cada linha continuaram comigo.</p>
+    </section>
+  </main>
+</div>
+
+<footer class="rodape">
+  <span>Projeto de avaliação técnica para a CRI Soluções Imobiliárias · não é um sistema oficial · dados fictícios</span>
+  <a href="https://github.com/buenomrl/cri-leads/blob/main/DOCUMENTACAO.md">Versão em Markdown no GitHub</a>
+</footer>
+
+</body>
+</html>

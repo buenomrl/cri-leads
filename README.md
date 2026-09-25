@@ -6,7 +6,7 @@
 Case técnico · Desenvolvedor(a) Jr, Agentes de IA · CRI Soluções Imobiliárias
 
 [**Abrir a interface**](https://cri-leads.vercel.app) ·
-[**Documentação da entrega**](DOCUMENTACAO.md) ·
+[**Documentação**](https://cri-leads.vercel.app/docs/) ([em Markdown](DOCUMENTACAO.md)) ·
 [**Segurança**](SECURITY.md) ·
 [**Análise dos dados**](analytics/resultados.md)
 

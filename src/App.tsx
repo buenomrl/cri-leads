@@ -236,9 +236,12 @@ export function App() {
             Projeto de avaliação técnica para a CRI Soluções Imobiliárias · não é um sistema oficial ·
             dados fictícios
           </span>
-          <a href="https://github.com/buenomrl/cri-leads" target="_blank" rel="noreferrer">
-            Código no GitHub
-          </a>
+          <span className="rodape-links">
+            <a href="/docs/">Documentação</a>
+            <a href="https://github.com/buenomrl/cri-leads" target="_blank" rel="noreferrer">
+              Código no GitHub
+            </a>
+          </span>
         </div>
       </footer>
 
