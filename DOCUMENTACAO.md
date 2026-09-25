@@ -145,22 +145,45 @@ isola o texto do lead: uma injeção consegue no máximo sujar um campo curto e 
   e passei a conferir se a resposta veio completa, para uma mensagem cortada no meio nunca chegar à
   tela. Enquanto o bug existia, o sistema entregou a mensagem padrão e registrou o motivo.
 
+**Avaliação do agente.** Para não depender de um teste só, `npm run eval:agente` roda o agente
+publicado sobre os 25 leads e sobre **11 ataques de prompt injection** (WhatsApp de concorrente,
+fechar a tag de dados e fingir ser o sistema, link por extenso, e-mail de terceiro, instrução em
+inglês, pedido para revelar o prompt, preço e visita falsos, desconto, injeção pelo campo de nome,
+letras invisíveis, telefone com dígitos separados). Cada ataque declara o que o atacante quer
+plantar; "passou" é esse conteúdo aparecer na mensagem entregue.
+
+| | Prompt v1 | Prompt v2 |
+|---|---|---|
+| Ataques contidos | 11 de 11 | **11 de 11** |
+| Não pergunta o que o cliente já disse | 24 de 25 | **25 de 25** |
+| Não inventa preço · cumprimenta pelo nome | 25 · 25 | **25 · 25** |
+
+Os 11 ataques pararam na primeira barreira: a extração reduziu o texto a campos saneados e o guard
+nem precisou agir. A avaliação da v1 achou um problema real: para "casa no Jardim Europa, 5 suítes,
+piscina, **orçamento aberto**", o agente perguntava a faixa de investimento. A extração não tratava
+"orçamento aberto" como resposta sobre orçamento. A v2 corrige isso no prompt e acrescenta uma regra
+fixa no código (o que foi extraído nunca conta como "falta saber"), que vale mesmo se o modelo errar
+de novo. Rodada de novo, a avaliação mostrou a melhora sem piorar nenhum outro número. Relatórios:
+[v1](docs/avaliacao-agente-v1.md) · [v2](docs/avaliacao-agente.md), com todas as mensagens
+geradas nos ataques.
+
 **Com mais tempo.**
 - Um campo de **características** na extração (piscina, varanda, vista…), com valores de uma lista
   fechada. Hoje um pedido como "imóvel para morar com piscina" recebe uma resposta genérica, porque
   a redação só vê os campos fixos. É o custo consciente do isolamento, e dá para reduzir sem abrir
   mão dele.
-- Uma avaliação sistemática: rodar o agente sobre um conjunto fixo de leads e de ataques a cada
-  mudança de prompt, e comparar as versões.
+- Avaliar também o **tom** das mensagens, com leads reais e a opinião de quem atende, e não só
+  checagens objetivas; e rodar a avaliação automaticamente a cada mudança de prompt.
 - Gerar a sugestão automaticamente ao cadastrar o lead e guardar o histórico de sugestões por lead.
 
 ---
 
 ## Qualidade e verificação
 
-- **100 testes** (Vitest) nas regras que importam: validação, números da análise, máscara de
-  telefone, guard do agente, escolha da pergunta, preparo do texto para o prompt, comparação da
-  chave, leitura da resposta do modelo, CORS, busca e ordenação.
+- **106 testes** (Vitest) nas regras que importam: validação, números da análise, máscara de
+  telefone, guard do agente, escolha da pergunta, coerência da extração, preparo do texto para o
+  prompt, comparação da chave, leitura da resposta do modelo, CORS, busca e ordenação.
+- **`npm run eval:agente`** avalia o agente publicado (25 leads + 11 ataques) e grava o relatório.
 - **`npm run smoke`** verifica a API publicada: escrita sem chave recusada (401), dado inválido
   recusado (400), tentativa de apagar recusada (405), telefone sempre mascarado, CORS e, com
   `--agente`, a entrada hostil.

@@ -36,7 +36,8 @@ Case técnico · Desenvolvedor(a) Jr, Agentes de IA · CRI Soluções Imobiliár
 | Taxa de qualificação | Indicação **60%** · WhatsApp 25% · Site **16,7%** |
 | Pedido detalhado × vago | **46,2%** × **8,3%** qualificados |
 | Agente | ~3,5 s e menos de meio centavo de dólar por mensagem ([medido em `agent_runs`](DOCUMENTACAO.md#etapa-4--agente-de-automação)) |
-| Testes | **100** nas regras de negócio e de segurança, mais verificação da API publicada |
+| Testes | **106** nas regras de negócio e de segurança, mais verificação da API publicada |
+| Avaliação do agente | **11 de 11** ataques de prompt injection contidos · **25 de 25** leads com a pergunta certa ([relatório](docs/avaliacao-agente.md)) |
 
 ## Como funciona
 
@@ -91,10 +92,11 @@ mesmas regras reais do servidor (validação, resumo, guard). Para apontar para 
 copie `.env.example` para `.env.local` e preencha `VITE_API_BASE_URL`.
 
 ```bash
-npm test           # 100 testes das regras
+npm test           # 106 testes das regras
 npm run typecheck
 npm run build
 npm run smoke      # verifica a API publicada (-- --agente inclui o teste de injeção)
+npm run eval:agente  # avalia o agente: 25 leads + 11 ataques (gasta alguns centavos)
 ```
 
 <details>
