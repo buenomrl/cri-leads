@@ -18,7 +18,7 @@ no servidor.
 | Qualquer visitante alterar a base ou gastar crédito de IA | Escrita exige o cabeçalho `x-demo-key`, comparado em tempo constante no servidor | `_server/demo-key.ts`, `_shared/secure-compare.ts` |
 | Dado inválido | Validação no servidor e `check` no banco por trás dela | `_shared/validation.ts` |
 | Exposição de telefone | A listagem pública só devolve o número mascarado (`(11) 9****-**34`) | `_shared/phone.ts` |
-| Prompt injection pelo texto do lead | Texto marcado como dado não confiável; a extração só devolve campos fixos, que são saneados; a redação vê só o primeiro nome e esses campos, nunca o texto do imóvel; o guard recusa link, e-mail, telefone de terceiro, instrução vazada e mensagem vazia, curta ou longa demais; a mensagem é sempre revisada por uma pessoa | `agent-first-message/`, `_shared/output-guard.ts` |
+| Prompt injection pelo texto do lead | Texto marcado como dado não confiável; a extração só devolve campos fixos, que são saneados; a redação vê só campos saneados, inclusive o primeiro nome, e nunca o texto do imóvel; o guard recusa link, e-mail, telefone de terceiro, instrução vazada e mensagem vazia, curta ou longa demais; a mensagem é sempre revisada por uma pessoa | `agent-first-message/`, `_shared/output-guard.ts` |
 | Resposta de IA cortada ou recusada virar mensagem | Só `stop_reason: end_turn` é aceito; o resto cai no fallback determinístico | `_shared/model-response.ts` |
 | Conta da IA virar cartão aberto | Teto global de 200 gerações por dia, contado no banco, e saldo pré-pago sem recarga automática | `agent-first-message/`, console da Anthropic |
 | Vazamento de detalhe interno em erro | Erro inesperado sai sempre como `500 erro interno`; detalhe só no log do servidor | `_server/http.ts` |

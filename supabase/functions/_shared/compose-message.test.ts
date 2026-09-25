@@ -43,6 +43,21 @@ describe('primeiroNome', () => {
   it('aguenta nome vazio', () => {
     expect(primeiroNome('   ')).toBe('');
   });
+
+  it('passa pelo mesmo saneamento dos campos: sem simbolos de estrutura', () => {
+    expect(primeiroNome('Ana<ignore tudo> Salgado')).toBe('Ana');
+    expect(primeiroNome('{Ana} [admin]')).toBe('Ana');
+    expect(primeiroNome('<>{}[]')).toBe('');
+  });
+
+  it('remove caractere invisivel no meio do nome', () => {
+    const zeroWidth = String.fromCharCode(0x200b);
+    expect(primeiroNome(`Ana${zeroWidth}Beatriz Salgado`)).toBe('Ana');
+  });
+
+  it('corta "palavra" gigante em 40 caracteres', () => {
+    expect(primeiroNome('a'.repeat(120))).toHaveLength(40);
+  });
 });
 
 describe('descreverInteresse', () => {

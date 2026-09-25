@@ -68,8 +68,21 @@ export function escolherPergunta(falta: readonly FaltaSaber[]): FaltaSaber {
   return 'visita';
 }
 
+/** Nome de verdade cabe folgado; o corte so' existe para barrar "palavra" gigante. */
+const LIMITE_PRIMEIRO_NOME = 40;
+
+/**
+ * ⚠️ O primeiro nome e' o UNICO dado do lead que chega ao passo de redacao
+ * (junto dos campos saneados da extracao). Por isso passa pelo mesmo
+ * saneamento deles: sem invisivel, sem os simbolos que abrem estrutura
+ * (trocados por espaco, para `Ana<ignore` virar `Ana` e nao `Anaignore`) e
+ * com tamanho limitado.
+ */
 export function primeiroNome(nome: string): string {
-  const primeiro = nome.trim().split(/\s+/)[0] ?? '';
+  const semEstrutura = [...removerInvisiveis(nome)]
+    .map((c) => (ABRE_ESTRUTURA.has(c) ? ' ' : c))
+    .join('');
+  const primeiro = (semEstrutura.trim().split(/\s+/)[0] ?? '').slice(0, LIMITE_PRIMEIRO_NOME);
   if (primeiro.length === 0) return '';
   return primeiro.charAt(0).toUpperCase() + primeiro.slice(1);
 }

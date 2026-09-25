@@ -36,7 +36,7 @@ Case técnico · Desenvolvedor(a) Jr, Agentes de IA · CRI Soluções Imobiliár
 | Taxa de qualificação | Indicação **60%** · WhatsApp 25% · Site **16,7%** |
 | Pedido detalhado × vago | **46,2%** × **8,3%** qualificados |
 | Agente | ~3,5 s e menos de meio centavo de dólar por mensagem ([medido em `agent_runs`](DOCUMENTACAO.md#etapa-4--agente-de-automação)) |
-| Testes | **97** nas regras de negócio e de segurança, mais verificação da API publicada |
+| Testes | **100** nas regras de negócio e de segurança, mais verificação da API publicada |
 
 ## Como funciona
 
@@ -58,14 +58,14 @@ flowchart TD
   A["Texto do lead<br/>tratado como dado, nunca como instrução"] --> B["1 · Extração · Haiku<br/>só campos fixos em JSON"]
   B --> C["Saneamento<br/>tipo forçado, 80 caracteres,<br/>sem símbolos de marcação nem invisíveis"]
   C --> P["Regra fixa escolhe a pergunta que falta"]
-  P --> D["2 · Redação · Sonnet<br/>vê só o primeiro nome e os campos saneados"]
+  P --> D["2 · Redação · Sonnet<br/>vê só campos saneados,<br/>inclusive o primeiro nome"]
   D --> E{"Guard<br/>link, e-mail, telefone de terceiro,<br/>instrução vazada, tamanho?"}
   E -->|aprovado| F["Mensagem sugerida<br/>para uma pessoa revisar"]
   E -->|bloqueado| G["Mensagem padrão<br/>montada por código"]
 ```
 
-O texto que o lead escreveu sobre o imóvel nunca chega ao passo que redige: esse passo vê só o
-primeiro nome e os campos já saneados. Uma tentativa de injeção consegue, no máximo, sujar
+O texto que o lead escreveu sobre o imóvel nunca chega ao passo que redige: esse passo vê só
+campos já saneados, inclusive o primeiro nome do lead. Uma tentativa de injeção consegue, no máximo, sujar
 um campo curto e já higienizado, e a saída ainda passa pelo guard. O sistema **nunca envia** nada:
 a mensagem é sempre uma sugestão para a equipe revisar.
 
@@ -91,7 +91,7 @@ mesmas regras reais do servidor (validação, resumo, guard). Para apontar para 
 copie `.env.example` para `.env.local` e preencha `VITE_API_BASE_URL`.
 
 ```bash
-npm test           # 97 testes das regras
+npm test           # 100 testes das regras
 npm run typecheck
 npm run build
 npm run smoke      # verifica a API publicada (-- --agente inclui o teste de injeção)

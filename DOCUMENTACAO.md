@@ -117,7 +117,7 @@ texto do lead (entrada não confiável)
   → 1. extração (Haiku): lê o texto e devolve só campos fixos em JSON
   → saneamento: tipo forçado, 80 caracteres por campo, sem < > { } [ ] nem caracteres invisíveis
   → regra fixa escolhe A pergunta que falta: região → orçamento → dormitórios → prazo → financiamento → visita
-  → 2. redação (Sonnet): vê só o primeiro nome do lead e os campos saneados, nunca o texto do imóvel
+  → 2. redação (Sonnet): vê só campos saneados (inclusive o primeiro nome), nunca o texto do imóvel
   → guard: recusa link, e-mail, telefone de terceiro, instrução vazada, mensagem vazia, curta ou longa demais
   → mensagem sugerida  ou  mensagem padrão montada por código (fallback)
 ```
@@ -158,7 +158,7 @@ isola o texto do lead: uma injeção consegue no máximo sujar um campo curto e 
 
 ## Qualidade e verificação
 
-- **97 testes** (Vitest) nas regras que importam: validação, números da análise, máscara de
+- **100 testes** (Vitest) nas regras que importam: validação, números da análise, máscara de
   telefone, guard do agente, escolha da pergunta, preparo do texto para o prompt, comparação da
   chave, leitura da resposta do modelo, CORS, busca e ordenação.
 - **`npm run smoke`** verifica a API publicada: escrita sem chave recusada (401), dado inválido
